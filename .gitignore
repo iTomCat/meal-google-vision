@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
+
+# duże zdjęcia
+Foto_Plates/
+Foto_Plates_2/
