@@ -1,0 +1,59 @@
+{
+    "nazwa_dania": "Kebab w tortilli z frytkami i sosem",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Mała miseczka na sos, koszyk na frytki",
+        "rozmiar_porcji_opis": "Standardowa porcja dania obiadowego"
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Tortilla pszenna",
+            "waga_oszacowana_g": 100,
+            "cechy_wizualne": "Jasna, lekko przypieczona, zwinięta w rulon"
+        },
+        {
+            "nazwa_produktu": "Sałata zielona",
+            "waga_oszacowana_g": 30,
+            "cechy_wizualne": "Świeże, zielone liście"
+        },
+        {
+            "nazwa_produktu": "Frytki",
+            "waga_oszacowana_g": 150,
+            "cechy_wizualne": "Złocisto-brązowe, chrupiące, w metalowym koszyku"
+        },
+        {
+            "nazwa_produktu": "Ketchup",
+            "waga_oszacowana_g": 50,
+            "cechy_wizualne": "Czerwony sos w małej szklanej miseczce"
+        },
+        {
+            "nazwa_produktu": "Kurki (grzyby)",
+            "waga_oszacowana_g": 20,
+            "cechy_wizualne": "Pomarańczowe grzyby o nieregularnym kształcie"
+        },
+        {
+            "nazwa_produktu": "Smażone kawałki ziemniaków/panierka",
+            "waga_oszacowana_g": 20,
+            "cechy_wizualne": "Złocisto-brązowe, nieregularne kawałki"
+        }
+    ],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Szarpane mięso w wrapie",
+            "waga_oszacowana_g": 120,
+            "warianty": [
+                "Mięso wołowe (szarpana wołowina)",
+                "Mięso drobiowe (szarpany kurczak/indyk)",
+                "Mięso baranie/jagnięce (kebab)"
+            ]
+        },
+        {
+            "przedmiot_wizualny": "Sos w wrapie",
+            "waga_oszacowana_g": 40,
+            "warianty": [
+                "Sos czosnkowy",
+                "Sos jogurtowo-ziołowy",
+                "Sos majonezowy"
+            ]
+        }
+    ]
+}

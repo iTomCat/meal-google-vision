@@ -1,0 +1,55 @@
+{
+    "nazwa_dania": "Loaded Frytki z Batatów",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Drewniane widelce",
+        "rozmiar_porcji_opis": "Duża porcja frytek w papierowej misce, odpowiednia dla 1-2 osób."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Frytki z batatów",
+            "waga_oszacowana_g": 350,
+            "cechy_wizualne": "Grubo cięte, złociste, wyglądające na chrupiące."
+        },
+        {
+            "nazwa_produktu": "Awokado",
+            "waga_oszacowana_g": 60,
+            "cechy_wizualne": "Pokrojone w kostkę, świeże, jasnozielone kawałki."
+        },
+        {
+            "nazwa_produktu": "Papryka (czerwona i żółta)",
+            "waga_oszacowana_g": 40,
+            "cechy_wizualne": "Kawałki grillowanej lub podsmażonej papryki w kolorze czerwonym i żółtym."
+        },
+        {
+            "nazwa_produktu": "Szczypiorek",
+            "waga_oszacowana_g": 8,
+            "cechy_wizualne": "Posiekany, świeży, intensywnie zielony."
+        },
+        {
+            "nazwa_produktu": "Natka pietruszki",
+            "waga_oszacowana_g": 8,
+            "cechy_wizualne": "Świeże, posiekane listki."
+        },
+        {
+            "nazwa_produktu": "Czerwona papryczka chili",
+            "waga_oszacowana_g": 3,
+            "cechy_wizualne": "Cienko pokrojone plasterki, intensywnie czerwone."
+        },
+        {
+            "nazwa_produktu": "Czarne oliwki",
+            "waga_oszacowana_g": 15,
+            "cechy_wizualne": "Całe lub połówki, ciemne."
+        }
+    ],
+    "skladniki_do_wyboru": [
+        {
+            "przedmiot_wizualny": "Sos",
+            "waga_oszacowana_g": 60,
+            "warianty": [
+                "Sos czosnkowy",
+                "Sos majonezowo-ziołowy",
+                "Sos jogurtowo-ziołowy"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "skladniki_pewne": [],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Duży, okrągły placek",
+            "procent_talerza": 95,
+            "warianty": [
+                {
+                    "nazwa": "Naleśnik (tradycyjny)",
+                    "typ": "Cienki"
+                },
+                {
+                    "nazwa": "Pancake (o średniej grubości)",
+                    "typ": "Standardowy"
+                }
+            ]
+        }
+    ],
+    "kontekst_talerza": {
+        "czy_widac_warzywa": false,
+        "szacowany_rozmiar": "M"
+    }
+}

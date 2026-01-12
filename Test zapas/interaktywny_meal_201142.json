@@ -1,0 +1,15 @@
+{
+    "nazwa_dania": "Naleśnik",
+    "analiza_skali": {
+        "obiekt_referencyjny": "łyżka stołowa",
+        "rozmiar_porcji_opis": "Duży naleśnik, którego średnica jest około 3-4 razy większa niż długość łyżki stołowej, zajmujący większość talerza. Porcja wydaje się być odpowiednia dla jednej osoby."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Naleśnik",
+            "waga_oszacowana_g": 170,
+            "cechy_wizualne": "Duży, okrągły, złocisto-brązowy, równomiernie usmażony, wyglądający na grubszy niż tradycyjny cienki naleśnik."
+        }
+    ],
+    "skladniki_niejednoznaczne": []
+}

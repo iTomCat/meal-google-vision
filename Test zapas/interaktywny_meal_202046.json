@@ -1,0 +1,25 @@
+{
+    "nazwa_dania": "Naleśnik",
+    "analiza_skali": {
+        "obiekt_referencyjny": "łyżka stołowa",
+        "rozmiar_porcji_opis": "Średnica naleśnika jest około 2-3 razy większa niż długość standardowej łyżki stołowej. Jest to pojedyncza, duża porcja naleśnika."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Naleśnik",
+            "waga_oszacowana_g": 120,
+            "cechy_wizualne": "Duży, okrągły, o złocistobrązowym kolorze, z nierównomiernie przypieczoną powierzchnią."
+        }
+    ],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Rodzaj ciasta naleśnikowego",
+            "waga_oszacowana_g": 120,
+            "warianty": [
+                "Naleśnik pszenny (klasyczny, cienki)",
+                "Naleśnik gryczany",
+                "Naleśnik bezglutenowy"
+            ]
+        }
+    ]
+}

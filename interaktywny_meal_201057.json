@@ -1,0 +1,15 @@
+{
+    "nazwa_dania": "Pankejk",
+    "analiza_skali": {
+        "obiekt_referencyjny": "spoon",
+        "rozmiar_porcji_opis": "One large pancake on a standard plate, next to a regular spoon, suggesting a single serving."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Pankejk",
+            "waga_oszacowana_g": 140,
+            "cechy_wizualne": "Złocisto-brązowy, okrągły, pojedynczy, wygląda na gruby."
+        }
+    ],
+    "skladniki_niejednoznaczne": []
+}

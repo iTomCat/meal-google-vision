@@ -1,0 +1,20 @@
+{
+    "nazwa_dania": "Potrójny kotlet burgerowy z serem",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Brak widocznych obiektów referencyjnych",
+        "rozmiar_porcji_opis": "Porcja składa się z trzech kotletów burgerowych z serem, co stanowi dużą porcję mięsną bez pieczywa."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Wołowina (kotlety burgerowe)",
+            "waga_oszacowana_g": 180,
+            "cechy_wizualne": "Trzy ułożone w stos kotlety z mielonej wołowiny, dobrze wysmażone, z nieregularnymi krawędziami."
+        },
+        {
+            "nazwa_produktu": "Ser topiony",
+            "waga_oszacowana_g": 60,
+            "cechy_wizualne": "Trzy plastry roztopionego, jasnożółtego sera, pokrywające kotlety."
+        }
+    ],
+    "skladniki_niejednoznaczne": []
+}

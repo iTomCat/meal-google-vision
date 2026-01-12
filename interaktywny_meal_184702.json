@@ -1,0 +1,49 @@
+{
+    "nazwa_dania": "Frytki z batatów z awokado i warzywami",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Drewniane sztućce (widelec i łyżka/łopatka), kubeczek na sos",
+        "rozmiar_porcji_opis": "Duża porcja, podana w kartonowym pudełku, sugerująca danie na wynos lub do podzielenia się."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Frytki z batatów",
+            "waga_oszacowana_g": 300,
+            "cechy_wizualne": "Pomarańczowe, smażone, w kształcie słupków, chrupiące krawędzie"
+        },
+        {
+            "nazwa_produktu": "Awokado",
+            "waga_oszacowana_g": 60,
+            "cechy_wizualne": "Zielone, pokrojone w kawałki, jasnozielony miąższ"
+        },
+        {
+            "nazwa_produktu": "Papryka (czerwona i żółta)",
+            "waga_oszacowana_g": 30,
+            "cechy_wizualne": "Czerwone i żółte paski, lekko grillowane/pieczone"
+        },
+        {
+            "nazwa_produktu": "Oliwki czarne",
+            "waga_oszacowana_g": 15,
+            "cechy_wizualne": "Ciemne, całe lub połówki"
+        },
+        {
+            "nazwa_produktu": "Świeże zioła (pietruszka, szczypiorek)",
+            "waga_oszacowana_g": 5,
+            "cechy_wizualne": "Zielone, posiekane liście/szczypiorek"
+        },
+        {
+            "nazwa_produktu": "Papryczka chili",
+            "waga_oszacowana_g": 3,
+            "cechy_wizualne": "Czerwone, pokrojone w plasterki"
+        }
+    ],
+    "skladniki_do_wyboru": [
+        {
+            "przedmiot_wizualny": "Sos polewa/dodatek",
+            "waga_oszacowana_g": 50,
+            "warianty": [
+                "Sos czosnkowy/Ranch",
+                "Sos jogurtowy z ziołami"
+            ]
+        }
+    ]
+}

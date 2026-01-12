@@ -1,0 +1,29 @@
+{
+    "nazwa_dania": "Smażony kurczak, frytki i kulki w panierce",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Brak wyraźnego obiektu referencyjnego, oszacowanie na podstawie standardowej wielkości opakowania typu fast-food",
+        "rozmiar_porcji_opis": "Duża porcja dla jednej osoby lub porcja do podziału dla dwóch osób"
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Frytki",
+            "waga_oszacowana_g": 180,
+            "cechy_wizualne": "Złociste, grubo krojone, smażone ziemniaki"
+        },
+        {
+            "nazwa_produktu": "Kawałki kurczaka smażonego",
+            "waga_oszacowana_g": 350,
+            "cechy_wizualne": "Różne kawałki kurczaka (np. skrzydełka, udka, filety) w chrupiącej, złocistej panierce"
+        }
+    ],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Małe, kuliste, smażone kawałki",
+            "waga_oszacowana_g": 120,
+            "warianty": [
+                "Popcorn chicken (kulki z kurczaka w panierce)",
+                "Kulki serowe (w panierce)"
+            ]
+        }
+    ]
+}

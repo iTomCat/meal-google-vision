@@ -1,0 +1,24 @@
+{
+    "nazwa_dania": "Stos kotletów burgerowych z serem",
+    "analiza_skali": {
+        "obiekt_referencyjny": "dłoń w rękawiczce",
+        "rozmiar_porcji_opis": "Pięć kotletów burgerowych, każdy standardowej wielkości (ok. 10 cm średnicy), ułożonych w stos. Jest to duża porcja składników, prawdopodobnie przeznaczona do złożenia wielu burgerów lub jednego, bardzo dużego."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Kotlet wołowy (burger)",
+            "waga_oszacowana_g": 500,
+            "cechy_wizualne": "Pięć kotletów wołowych, spieczonych na brzegach, ułożonych w stos, każdy pokryty roztopionym serem."
+        }
+    ],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Ser topiony",
+            "waga_oszacowana_g": 125,
+            "warianty": [
+                "Ser cheddar (plastry)",
+                "Ser topiony (typu amerykańskiego)"
+            ]
+        }
+    ]
+}

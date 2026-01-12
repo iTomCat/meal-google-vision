@@ -1,0 +1,20 @@
+{
+    "nazwa_dania": "Stos burgerów serowych",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Dłoń w czarnej rękawiczce, szpatułka kuchenna",
+        "rozmiar_porcji_opis": "Duża porcja składająca się z około 4-5 kotletów burgerowych z serem, prawdopodobnie do złożenia większego burgera lub jako baza do dania. Dłoń w rękawiczce daje pogląd na rozmiar pojedynczego kotleta."
+    },
+    "skladniki_pewne": [
+        {
+            "nazwa_produktu": "Kotlety wołowe do burgerów",
+            "waga_oszacowana_g": 250,
+            "cechy_wizualne": "Grillowane, brązowe, ułożone w stos, widoczne spieczone krawędzie, typowe dla smash burgerów."
+        },
+        {
+            "nazwa_produktu": "Ser topiony typu amerykańskiego",
+            "waga_oszacowana_g": 100,
+            "cechy_wizualne": "Roztopiony, jasnożółty, pokrywający każdy kotlet, tworzy kremową, błyszczącą warstwę."
+        }
+    ],
+    "skladniki_niejednoznaczne": []
+}

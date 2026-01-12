@@ -1,0 +1,18 @@
+{
+    "nazwa_dania": "Naleśnik",
+    "analiza_skali": {
+        "obiekt_referencyjny": "Talerz, Nóż kuchenny",
+        "rozmiar_porcji_opis": "Duża porcja, naleśnik pokrywa większość talerza obiadowego."
+    },
+    "skladniki_pewne": [],
+    "skladniki_niejednoznaczne": [
+        {
+            "przedmiot_wizualny": "Duży naleśnik",
+            "waga_oszacowana_g": 200,
+            "warianty": [
+                "Naleśnik klasyczny (pszenny)",
+                "Pankejk (amerykański)"
+            ]
+        }
+    ]
+}
