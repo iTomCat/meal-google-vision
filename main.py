@@ -1,5 +1,5 @@
 import vertexai
-from vertexai.generative_models import GenerativeModel, Part, HarmCategory
+from vertexai.generative_models import GenerativeModel, Part, HarmCategory, HarmBlockThreshold
 import json
 import math
 
@@ -35,20 +35,19 @@ KROK 3: Wykonaj pomiar stosując odpowiedni znacznik CASE (ignorując inne):
 
 <CASE_PLATE>
     CEL: Maksymalna średnica fizyczna (włącznie z rantem).
-    1. ELIMINACJA JEDZENIA (Zasada Koncentryczności): Spójrz na środek. Czy widzisz okrągły obiekt (owoc, bułka) leżący na talerzu?
+    1. ELIMINACJA JEDZENIA: Spójrz na środek. Czy widzisz okrągły obiekt (owoc, pomelo, bułka) leżący na talerzu?
        - JEŚLI TAK: To jedzenie. IGNORUJ mniejszy, wewnętrzny okrąg. Szukaj większego okręgu pod spodem.
-    2. ANALIZA RANTU: Sprawdź krawędź. Jeśli widzisz wzór (romby, paski) - to JEST część talerza.
+    2. ANALIZA RANTU: Sprawdź najbardziej zewnętrzną krawędź. Jeśli widzisz wzór (romby, paski, dekoracje) - to JEST część talerza.
     3. POMIAR: Mierz od zewnętrznego końca wzoru z lewej do zewnętrznego końca wzoru z prawej (NAJSZERSZY obrys).
-    4. ZAPIS: Wpisz wynik do 'raw_visual_width_mm' oraz 'calculated_diameter_mm'.
+    4. ZAPIS: Wpisz ten sam wynik do pól 'raw_visual_width_mm' oraz 'calculated_diameter_mm'.
 </CASE_PLATE>
 
 <CASE_BOWL>
     CEL: Realna średnica otworu (skorygowana o perspektywę).
-    1. ELIMINACJA JEDZENIA: Jeśli w misce znajduje się obiekt tworzący mniejszy krąg -> IGNORUJ GO. Mierz krawędź naczynia.
-    2. POMIAR WSTĘPNY: Zmierz wizualną szerokość otworu na zdjęciu z góry.
+    1. ELIMINACJA JEDZENIA: Jeśli w misce znajduje się obiekt (np. zupa, owoc) tworzący mniejszy krąg -> IGNORUJ GO. Mierz krawędź naczynia.
+    2. POMIAR WSTĘPNY: Zmierz wizualną szerokość otworu na zdjęciu z góry (między zewnętrznymi punktami).
     3. ZAPIS SUROWY: Wpisz do 'raw_visual_width_mm'.
-    4. KOREKTA: Odejmij 16% od wizualnego pomiaru.
-       (Formuła: calculated_diameter_mm = raw_visual_width_mm * 0.84).
+    4. KOREKTA: Odejmij 16% od wizualnego pomiaru (Formuła: calculated_diameter_mm = raw_visual_width_mm * 0.16).
 </CASE_BOWL>
 
 WARIANT C: Fallback -> "BOWL_STD", "PLATE_S", "PLATE_L".
@@ -60,13 +59,26 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm), 'NISKI_KOPCZYK' (2cm), 'WYSOKI_KOPIEC' (4cm), 'BRYLA_ZWARTA' (3D/Kula), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
-ZASADY KATEGORYZACJI:
-1. 'skladniki_pewne': To co widać ewidentnie.
-2. 'skladniki_niejednoznaczne': Produkty, których składu nie widać (np. typ sosu, typ napoju, skład kotleta).
-   - DLA NICH WYGENERUJ 'warianty' (Max 2-3 najbardziej logiczne opcje).
+ZASADY KATEGORYZACJI (Kluczowa logika):
+1. 'skladniki_pewne': Produkty, które rozpoznajesz bez wątpliwości i nie wymagają wyboru (np. Ryż, Udko, Całe Jabłko).
+   - MOGĄ BYĆ NA TALERZU (licz procentem).
+   - MOGĄ BYĆ POZA TALERZEM (licz sztukami).
+
+2. 'skladniki_niejednoznaczne': Produkty, które wymagają doprecyzowania przez użytkownika.
+   - PRZYKŁADY: Rodzaj chleba, Typ sosu, Rodzaj napoju (Cola vs Zero), Skład kotleta.
+   - INSTRUKCJA WAŻNA: Dla każdego takiego produktu WYGENERUJ listę 'warianty' (Podaj od 2 do 3 najbardziej logicznych opcji dietetycznych, np. "Z Cukrem" vs "Słodzik").
+
+ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
+   - WARIANT A: PRODUKT ROZMYTY / NA TALERZU (np. Puree, Kasza, Sos w miseczce)
+     -> Wypełnij 'procent_talerza' (0-100).
+     -> Pozostaw 'ilosc_sztuk': null.
+   
+   - WARIANT B: PRODUKT POLICZALNY / POZA TALERZEM (np. Całe Jabłko, Kromka chleba, Szklanka)
+     -> Ustaw 'procent_talerza': 0.
+     -> Wypełnij 'ilosc_sztuk' (Integer) oraz 'typ_jednostki' (np. 'sztuka', 'kromka', 'szklanka').
 
 WYMAGANY FORMAT JSON:
 {
@@ -115,7 +127,50 @@ WYMAGANY FORMAT JSON:
 
 
 def calculate_grammage(plate_mm, component_data):
-    """Przelicza parametry AI na gramy."""
+    """
+    Uniwersalny przelicznik wagi.
+    Obsługuje:
+    1. Produkty policzalne/poza talerzem (Sztuki * Waga standardowa).
+    2. Produkty geometryczne (Geometria talerza * % * Wysokość * Gęstość).
+    """
+
+    # --- ŚCIEŻKA 1: CZY TO PRODUKT POLICZALNY/SZTUKOWY? ---
+    # Sprawdzamy, czy AI zwróciło ilość sztuk (np. 1 miseczka, 2 kromki)
+    ilosc = component_data.get('ilosc_sztuk')
+
+    if ilosc and ilosc > 0:
+        jednostka = component_data.get('typ_jednostki', '').lower()
+
+        # Baza standardowych wag (w gramach)
+        STANDARD_WAGI = {
+            'kromka': 35,       # Chleb standard
+            'pajda': 50,        # Duży chleb
+            'bułka': 60,
+            'kajzerka': 60,
+            'sztuka': 100,      # Domyślny owoc/warzywo (np. jabłko)
+            'jajko': 55,
+            'szklanka': 250,    # Napój
+            'kubek': 250,
+            'kieliszek': 150,   # Wino
+            'plaster': 20,      # Ser/Szynka
+            'garsc': 30,        # Orzechy/Jagody
+
+            # --- ZABEZPIECZENIA DLA SOSÓW POZA TALERZEM ---
+            'miseczka': 50,     # Standardowy ramekin sosu
+            'porcja': 50,       # Porcja sosu/dipu
+            'dip': 50,
+            'sos': 50
+        }
+
+        # Pobieramy wagę. Jeśli AI wymyśli dziwną nazwę jednostki, przyjmujemy bezpieczne 100g.
+        # Ale dla sosów "miseczka" trafi idealnie w 50g.
+        waga_jednostkowa = STANDARD_WAGI.get(jednostka, 100)
+
+        return int(ilosc * waga_jednostkowa)
+
+    # --- ŚCIEŻKA 2: GEOMETRIA (NA TALERZU) ---
+    # Jeśli nie ma sztuk, musi być procent.
+
     if not plate_mm or plate_mm < 50:
         return 0
 
@@ -123,13 +178,14 @@ def calculate_grammage(plate_mm, component_data):
     radius_cm = (plate_mm / 10) / 2
     plate_area = math.pi * (radius_cm ** 2)
 
-    # 2. Powierzchnia składnika (cm2)
+    # 2. Powierzchnia składnika
     percentage = component_data.get('procent_talerza', 0)
     if percentage <= 0:
-        return 0
+        return 0  # Ani sztuki, ani procent = 0g
+
     comp_area = plate_area * (percentage / 100)
 
-    # 3. Wysokość (cm) - Mapowanie przestrzenne
+    # 3. Wysokość i Modyfikatory
     h_map = {
         'PLASKI_WARSTWA': 0.8,
         'NISKI_KOPCZYK': 2.0,
@@ -142,19 +198,18 @@ def calculate_grammage(plate_mm, component_data):
         'charakter_przestrzenny', 'NISKI_KOPCZYK')
     height = h_map.get(spatial_type, 2.0)
 
-    # 4. Gęstość (g/cm3)
+    volume_modifier = 1.0
+    if spatial_type == 'BRYLA_ZWARTA':
+        volume_modifier = 0.66
+    elif spatial_type == 'SOS_W_MISECZCE':
+        volume_modifier = 0.35
+
+    # 4. Gęstość
     d_map = {'NISKA': 0.3, 'SREDNIA': 0.95, 'WYSOKA': 1.15}
     density = d_map.get(component_data.get('gestosc_wizualna'), 0.95)
 
-    # 5. Objętość i Waga
-    volume = comp_area * height
-
-    if spatial_type == 'BRYLA_ZWARTA':
-        volume *= 0.66  # Korekta dla kuli
-    elif spatial_type == 'SOS_W_MISECZCE':  # <--- 2. DODAJEMY REDUKCJĘ OBJĘTOŚCI
-        # Odejmujemy grube ścianki i pustą przestrzeń (zostaje 35% objętości)
-        volume *= 0.35
-
+    # 5. Wynik
+    volume = comp_area * height * volume_modifier
     return int(volume * density)
 
 
@@ -178,11 +233,19 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
 
     content_parts.append("Przeanalizuj to.")
 
+    # Definiujemy konfigurację znoszącą WSZYSTKIE blokady
+    safety_config = {
+        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+    }
+
     response = model.generate_content(
         content_parts,
         generation_config={"max_output_tokens": 8192,
                            "temperature": 0.0, "response_mime_type": "application/json"},
-        safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: 3}
+        safety_settings=safety_config
     )
 
     try:
@@ -225,18 +288,33 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
         print("-" * 70)
 
         # A. SKŁADNIKI PEWNE
-        print("✅ SKŁADNIKI PEWNE:")
+        print("✅ SKŁADNIKI PEWNE (Automatyczne):")
         pewne = food.get("skladniki_pewne", [])
+
         if not pewne:
             print("   (Brak)")
         else:
-            print(f"   {'NAZWA':<20} | {'%':<4} | {'STAN':<15} | {'WAGA (EST)'}")
-            for item in pewne:
-                waga = calculate_grammage(diameter, item)
-                print(
-                    f"   {item.get('nazwa'):<20} | {item.get('procent_talerza')}%   | {item.get('stan_wizualny'):<15} | {waga} g")
+            # Nagłówek tabeli
+            print(
+                f"   {'NAZWA':<25} | {'ILOŚĆ':<10} | {'STAN':<20} | {'WAGA (EST)'}")
+            print("-" * 80)
 
-        print("-" * 70)
+            for item in pewne:
+                # 1. Oblicz wagę (funkcja sama zdecyduje czy użyć % czy sztuk)
+                waga = calculate_grammage(diameter, item)
+
+                # 2. Sformatuj opis ilości (Sztuki vs Procenty)
+                if item.get("ilosc_sztuk") and item.get("ilosc_sztuk") > 0:
+                    # np. "1 sztuka"
+                    ilosc_desc = f"{item.get('ilosc_sztuk')} x {item.get('typ_jednostki')}"
+                else:
+                    ilosc_desc = f"{item.get('procent_talerza')}%"  # np. "25%"
+
+                # 3. Wyświetl
+                print(
+                    f"   {item.get('nazwa'):<25} | {ilosc_desc:<10} | {item.get('stan_wizualny'):<20} | {waga} g")
+
+        print("-" * 80)
 
         # B. SKŁADNIKI NIEJEDNOZNACZNE (To co idzie do aplikacji do wyboru)
         print("❓ SKŁADNIKI NIEJEDNOZNACZNE (Do wyboru w UI):")
