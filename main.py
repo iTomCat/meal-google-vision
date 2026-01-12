@@ -60,7 +60,7 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm), 'NISKI_KOPCZYK' (2cm), 'WYSOKI_KOPIEC' (4cm), 'BRYLA_ZWARTA' (3D/Kula), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm), 'NISKI_KOPCZYK' (2cm), 'WYSOKI_KOPIEC' (4cm), 'BRYLA_ZWARTA' (3D/Kula), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
 ZASADY KATEGORYZACJI:
@@ -135,7 +135,8 @@ def calculate_grammage(plate_mm, component_data):
         'NISKI_KOPCZYK': 2.0,
         'WYSOKI_KOPIEC': 4.5,
         'BRYLA_ZWARTA': 5.5,
-        'CIECZ': 3.0
+        'CIECZ': 3.0,
+        'SOS_W_MISECZCE': 2.5
     }
     spatial_type = component_data.get(
         'charakter_przestrzenny', 'NISKI_KOPCZYK')
@@ -150,6 +151,9 @@ def calculate_grammage(plate_mm, component_data):
 
     if spatial_type == 'BRYLA_ZWARTA':
         volume *= 0.66  # Korekta dla kuli
+    elif spatial_type == 'SOS_W_MISECZCE':  # <--- 2. DODAJEMY REDUKCJĘ OBJĘTOŚCI
+        # Odejmujemy grube ścianki i pustą przestrzeń (zostaje 35% objętości)
+        volume *= 0.35
 
     return int(volume * density)
 
