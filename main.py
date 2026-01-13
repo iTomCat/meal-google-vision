@@ -9,8 +9,11 @@ LOCATION = "global"
 MODEL_NAME = "gemini-3-flash-preview"
 
 # ZDJĘCIA TESTOWE
-IMG_PATH_TOP = "Foto_Plates_2/dish_1_T.png"
-IMG_PATH_SIDE = "Foto_Plates_2/dish_1_L.jpg"
+# IMG_PATH_TOP = "Foto_Plates_2/dish_1_T.png"
+# IMG_PATH_SIDE = "Foto_Plates_2/dish_1_L.jpg"
+
+IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
+IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
 
 # Słownik wymiarów (Fallback)
 FALLBACK_SIZES = {"BOWL_STD": 130, "PLATE_S": 198, "PLATE_L": 260}
@@ -59,7 +62,7 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'LUZNY_STOS' (4cm - Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
 ZASADY KATEGORYZACJI (Kluczowa logika):
@@ -190,6 +193,7 @@ def calculate_grammage(plate_mm, component_data):
         'PLASKI_WARSTWA': 0.8,
         'NISKI_KOPCZYK': 2.0,
         'WYSOKI_KOPIEC': 4.5,
+        'LUZNY_STOS': 4.5,
         'BRYLA_ZWARTA': 5.5,
         'CIECZ': 3.0,
         'SOS_W_MISECZCE': 2.5
@@ -202,7 +206,9 @@ def calculate_grammage(plate_mm, component_data):
     if spatial_type == 'BRYLA_ZWARTA':
         volume_modifier = 0.66
     elif spatial_type == 'SOS_W_MISECZCE':
-        volume_modifier = 0.35
+        volume_modifier = 0.35,
+    elif spatial_type == 'LUZNY_STOS':
+        volume_modifier = 0.31
 
     # 4. Gęstość
     d_map = {'NISKA': 0.3, 'SREDNIA': 0.95, 'WYSOKA': 1.15}
