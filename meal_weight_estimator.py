@@ -1,5 +1,13 @@
 import math
 
+# -------------------------------------------------------------------
+# Fizyczny Silnik Obliczeniowy" (Physics Engine)
+# Zamiana surowych danych wizualnych z AI na gramaturę (g).
+# Ten plik to matematyczne serce aplikacji. Nie łączy się z internetem, nie gada z AI. Bierze JSON-a,
+# w którym AI opisało "co widzi" (np. "kopczyk ryżu na 20% talerza")
+# i przelicza to na konkretną wagę w gramach.
+# -------------------------------------------------------------------
+
 # --- 1. STAŁE I BAZA WIEDZY O WAGACH ---
 
 DEFAULT_DIAMETER_MM = 260

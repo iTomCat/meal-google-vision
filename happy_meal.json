@@ -1,0 +1,90 @@
+{
+    "geometry_analysis": {
+        "vessel_type": "PLATE",
+        "visual_rim_check": "Gładki, biały rant bez wzorów, wyraźna krawędź zewnętrzna",
+        "reference_found": true,
+        "detected_reference_type": "Widelec (192mm)",
+        "measurement_method": "CASE_PLATE",
+        "raw_visual_width_mm": 265,
+        "calculated_diameter_mm": 265,
+        "fallback_category_label": "PLATE_L"
+    },
+    "food_analysis": {
+        "skladniki_pewne": [
+            {
+                "nazwa": "Makaron Spaghetti",
+                "stan_wizualny": "Ugotowany, wymieszany z sosem",
+                "procent_talerza": 75,
+                "charakter_przestrzenny": "LUZNY_STOS",
+                "gestosc_wizualna": "SREDNIA",
+                "stopien_przetworzenia": "Sredni",
+                "calculated_weight_g": 548
+            },
+            {
+                "nazwa": "Boczek / Pancetta",
+                "stan_wizualny": "Smażone kawałki wewnątrz makaronu",
+                "procent_talerza": 15,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "WYSOKA",
+                "stopien_przetworzenia": "Sredni",
+                "calculated_weight_g": 76
+            },
+            {
+                "nazwa": "Natka pietruszki",
+                "stan_wizualny": "Posiekana, świeża",
+                "procent_talerza": 5,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "NISKA",
+                "stopien_przetworzenia": "Niski",
+                "calculated_weight_g": 6
+            }
+        ],
+        "skladniki_niejednoznaczne": [
+            {
+                "przedmiot_wizualny": "Baza sosu (emulsja)",
+                "procent_talerza": 60,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "SREDNIA",
+                "warianty": [
+                    {
+                        "nazwa": "Sos Carbonara (jajko i ser)",
+                        "typ": "Tradycyjny",
+                        "calculated_weight_g": 251
+                    },
+                    {
+                        "nazwa": "Sos śmietanowy",
+                        "typ": "Tłusty",
+                        "calculated_weight_g": 251
+                    }
+                ],
+                "visual_object_weight_g": 251
+            },
+            {
+                "przedmiot_wizualny": "Ser tarty (posypka)",
+                "procent_talerza": 40,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "SREDNIA",
+                "warianty": [
+                    {
+                        "nazwa": "Parmezan / Grana Padano",
+                        "typ": "Twardy ser dojrzewający",
+                        "calculated_weight_g": 167
+                    },
+                    {
+                        "nazwa": "Pecorino Romano",
+                        "typ": "Ser owczy",
+                        "calculated_weight_g": 167
+                    }
+                ],
+                "visual_object_weight_g": 167
+            }
+        ],
+        "kontekst_talerza": {
+            "czy_widac_warzywa": false,
+            "szacowany_rozmiar": "L"
+        }
+    },
+    "meta_calculation": {
+        "final_diameter_mm": 265
+    }
+}
