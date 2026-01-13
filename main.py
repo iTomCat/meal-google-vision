@@ -2,6 +2,7 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part, HarmCategory, HarmBlockThreshold
 import json
 import math
+from meal_processor import enrich_meal_json
 
 # --- KONFIGURACJA ---
 PROJECT_ID = "test-wellness-rag"
@@ -16,11 +17,11 @@ IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
 IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
 
 # Słownik wymiarów (Fallback)
-FALLBACK_SIZES = {"BOWL_STD": 130, "PLATE_S": 198, "PLATE_L": 260}
+# FALLBACK_SIZES = {"BOWL_STD": 130, "PLATE_S": 198, "PLATE_L": 260}
 
 # --- FINALNY SCALONY PROMPT ---
 SYSTEM_PROMPT = """
-Jesteś zaawansowanym sensorem wizualnym dla aplikacji dietetycznej. 
+Jesteś zaawansowanym sensorem wizualnym dla aplikacji dietetycznej.
 Twoim zadaniem jest ekstrakcja faktów z obrazu w dwóch wymiarach:
 1. GEOMETRIA: Precyzyjny pomiar naczynia (ignorując jedzenie).
 2. DIETETYKA I FIZYKA: Identyfikacja składników oraz ocena ich objętości (żeby algorytm policzył wagę).
@@ -78,7 +79,7 @@ ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
    - WARIANT A: PRODUKT ROZMYTY / NA TALERZU (np. Puree, Kasza, Sos w miseczce)
      -> Wypełnij 'procent_talerza' (0-100).
      -> Pozostaw 'ilosc_sztuk': null.
-   
+
    - WARIANT B: PRODUKT POLICZALNY / POZA TALERZEM (np. Całe Jabłko, Kromka chleba, Szklanka)
      -> Ustaw 'procent_talerza': 0.
      -> Wypełnij 'ilosc_sztuk' (Integer) oraz 'typ_jednostki' (np. 'sztuka', 'kromka', 'szklanka').
@@ -129,7 +130,7 @@ WYMAGANY FORMAT JSON:
 # --- FUNKCJA MATEMATYCZNA (PYTHON) ---
 
 
-def calculate_grammage(plate_mm, component_data):
+def calculate_grammage_zapas(plate_mm, component_data):
     """
     Uniwersalny przelicznik wagi.
     Obsługuje:
@@ -247,6 +248,7 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
         HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
     }
 
+    print("🤖 START Vertex AI...")
     response = model.generate_content(
         content_parts,
         generation_config={"max_output_tokens": 8192,
@@ -255,33 +257,22 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
     )
 
     try:
-        result = json.loads(response.text)
+        raw_result = json.loads(response.text)
 
-        if isinstance(result, list) and result:
-            result = result[0]
+        if isinstance(raw_result, list) and raw_result:
+            raw_result = raw_result[0]
 
-        geometry = result.get("geometry_analysis", {})
-        food = result.get("food_analysis", {})
+        final_data = enrich_meal_json(raw_result)
+
+        geometry = final_data.get("geometry_analysis", {})
+        food = final_data.get("food_analysis", {})
 
         # --- POPRAWKA LOGIKI POBIERANIA WYMIARU ---
         diameter = 0
 
-        # 1. Najpierw szukamy konkretnej liczby obliczonej przez AI
-        if geometry.get("calculated_diameter_mm") and geometry.get("calculated_diameter_mm") > 0:
-            diameter = geometry.get("calculated_diameter_mm")
-
-        # 2. Jeśli nie ma, szukamy surowego wymiaru
-        elif geometry.get("raw_visual_width_mm") and geometry.get("raw_visual_width_mm") > 0:
-            diameter = geometry.get("raw_visual_width_mm")
-
-        # 3. Jeśli nadal 0, szukamy kategorii (Fallback)
-        elif geometry.get("fallback_category_label"):
-            label = geometry.get("fallback_category_label")
-            diameter = FALLBACK_SIZES.get(label, 260)
-
-        # Zabezpieczenie ostateczne - jeśli nadal 0, a wykryto talerz, przyjmij średni standard
-        if diameter == 0 and geometry.get("vessel_type") == "PLATE":
-            diameter = 260
+        # Średnicę bierzemy z meta-danych, które obliczył procesor
+        diameter = final_data.get("meta_calculation", {}).get(
+            "final_diameter_mm", 0)
         # ------------------------------------------
 
         # --- RAPORT KOŃCOWY ---
@@ -289,37 +280,37 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
         print(f"🍽️  RAPORT PEŁNY (Talerz: {diameter} mm)")
         print("="*70)
 
-        print(f"REFERENCJA:    {geometry.get('detected_reference_type', 'Brak')}")
+        print(
+            f"REFERENCJA:    {geometry.get('detected_reference_type', 'Brak')}")
         print(f"DEBUG METODY:  {geometry.get('measurement_method')}")
         print("-" * 70)
 
         # A. SKŁADNIKI PEWNE
-        print("✅ SKŁADNIKI PEWNE (Automatyczne):")
+        print("✅ SKŁADNIKI PEWNE (Już przeliczone):")
         pewne = food.get("skladniki_pewne", [])
 
         if not pewne:
             print("   (Brak)")
         else:
-            # Nagłówek tabeli
-            print(
-                f"   {'NAZWA':<25} | {'ILOŚĆ':<10} | {'STAN':<20} | {'WAGA (EST)'}")
+            # PRZYWRÓCONO KOLUMNĘ 'STAN'
+            print(f"   {'NAZWA':<25} | {'ILOŚĆ':<12} | {'STAN':<20} | {'WAGA'}")
             print("-" * 80)
 
             for item in pewne:
-                # 1. Oblicz wagę (funkcja sama zdecyduje czy użyć % czy sztuk)
-                waga = calculate_grammage(diameter, item)
+                # 1. Pobieramy gotową wagę
+                waga = item.get("calculated_weight_g", 0)
 
-                # 2. Sformatuj opis ilości (Sztuki vs Procenty)
-                if item.get("ilosc_sztuk") and item.get("ilosc_sztuk") > 0:
-                    # np. "1 sztuka"
-                    ilosc_desc = f"{item.get('ilosc_sztuk')} x {item.get('typ_jednostki')}"
+                # 2. Formatujemy opis ilości
+                if item.get("ilosc_sztuk", 0) > 0:
+                    desc = f"{item.get('ilosc_sztuk')} x {item.get('typ_jednostki')}"
                 else:
-                    ilosc_desc = f"{item.get('procent_talerza')}%"  # np. "25%"
+                    desc = f"{item.get('procent_talerza')}%"
 
-                # 3. Wyświetl
+                # 3. Wyświetlamy ze stanem wizualnym (używamy .get('', '') na wypadek braku opisu)
+                stan = item.get('stan_wizualny', '')
+
                 print(
-                    f"   {item.get('nazwa'):<25} | {ilosc_desc:<10} | {item.get('stan_wizualny'):<20} | {waga} g")
-
+                    f"   {item.get('nazwa'):<25} | {desc:<12} | {stan:<20} | {waga} g")
         print("-" * 80)
 
         # B. SKŁADNIKI NIEJEDNOZNACZNE (To co idzie do aplikacji do wyboru)
@@ -330,21 +321,29 @@ def analyze_full_plate_v2(project_id, location, model_name, path_top, path_side)
         else:
             for item in niejedno:
                 # Tu też liczymy wagę "brylę", bo objętość jest ta sama niezależnie od wariantu
-                waga_baza = calculate_grammage(diameter, item)
+                waga_bryly = item.get("visual_object_weight_g", 0)
                 print(
-                    f"   👁️  WIDZĘ: {item.get('przedmiot_wizualny')} (~{waga_baza} g)")
+                    f"   👁️  WIDZĘ: {item.get('przedmiot_wizualny')} (~{waga_bryly} g)")
                 print("       OPCJE DO WYBORU:")
+
                 for wariant in item.get('warianty', []):
+                    # Każdy wariant ma już swoją wagę!
+                    waga_wariantu = wariant.get("calculated_weight_g", 0)
                     print(
-                        f"         - {wariant.get('nazwa')} ({wariant.get('typ')})")
+                        f"         - [ ] {wariant.get('nazwa'):<20} -> {waga_wariantu} g")
 
         print("="*70)
         print(
             f"DEBUG GEO: {geometry.get('vessel_type')} | Raw: {geometry.get('raw_visual_width_mm')} -> Calc: {geometry.get('calculated_diameter_mm')}")
 
+        # WAŻNE: Na końcu funkcji zwracamy ten obiekt,
+        # żeby API (np. Flask/FastAPI) mogło go wysłać do telefonu.
+        return final_data
+
     except Exception as e:
         print(f"BŁĄD: {e}")
         print("Fragment odpowiedzi:", response.text[:500])
+        return None
 
 
 if __name__ == "__main__":
