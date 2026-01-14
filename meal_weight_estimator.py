@@ -43,6 +43,7 @@ HEIGHT_MAP = {
     'LUZNY_STOS': 4.5,
     'BRYLA_ZWARTA': 5.5,
     'ROLKA_NADZIEWANA': 3.5,  # Dla Tortilli/Wrapa
+    'POWLOKA_SOS': 0.1, #(1mm grubości dla sosu na makaronie)
     'CIECZ': 3.0,
     'SOS_W_MISECZCE': 2.5
 }

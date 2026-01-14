@@ -1,76 +1,108 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Gładki biały rant bez wzorów, wyraźna krawędź zewnętrzna",
+        "visual_rim_check": "Widoczny szeroki rant z czarno-białym wzorem geometrycznym (trójkąty).",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 265,
-        "calculated_diameter_mm": 265,
+        "raw_visual_width_mm": 255,
+        "calculated_diameter_mm": 255,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
+        "nazwa_dania": "Wrapy pszenne z mixem sałat i prażoną cebulką",
         "skladniki_pewne": [
             {
-                "nazwa": "Makaron spaghetti",
-                "stan_wizualny": "Ugotowany, wymieszany z sosem i ziołami",
-                "procent_talerza": 70,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "WYSOKI_KOPIEC",
+                "nazwa": "Tortilla / Wrap",
+                "stan_wizualny": "Dwie zrolowane i opieczone tortille, prawdopodobnie pełnoziarniste",
+                "procent_talerza": 55,
+                "ilosc_sztuk": 2,
+                "typ_jednostki": "sztuka",
+                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 1650
+                "calculated_weight_g": 200
             },
             {
-                "nazwa": "Boczek lub Guanciale",
-                "stan_wizualny": "Smażone, drobne kawałki wymieszane z makaronem",
-                "procent_talerza": 15,
+                "nazwa": "Mix sałat",
+                "stan_wizualny": "Świeże liście rucoli, radicchio i sałaty lodowej",
+                "procent_talerza": 35,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "NISKI_KOPCZYK",
-                "gestosc_wizualna": "WYSOKA",
-                "calculated_weight_g": 190
+                "charakter_przestrzenny": "LUZNY_STOS",
+                "gestosc_wizualna": "NISKA",
+                "calculated_weight_g": 74
             },
             {
-                "nazwa": "Ser tarty (typu Parmezan/Pecorino)",
-                "stan_wizualny": "Sypki, obfita warstwa na wierzchu potrawy",
-                "procent_talerza": 45,
+                "nazwa": "Cebulka prażona",
+                "stan_wizualny": "Chrupiąca posypka na wierzchu wrapów",
+                "procent_talerza": 5,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
                 "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 188
+                "calculated_weight_g": 19
             }
         ],
         "skladniki_niejednoznaczne": [
             {
-                "przedmiot_wizualny": "Baza sosu emulgująca makaron",
-                "procent_talerza": 70,
+                "przedmiot_wizualny": "Nadzienie wrapa",
+                "procent_talerza": 0,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
-                "gestosc_wizualna": "WYSOKA",
+                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
+                "gestosc_wizualna": "SREDNIA",
                 "warianty": [
                     {
-                        "nazwa": "Sos Carbonara (żółtka jaj, ser)",
-                        "typ": "Tradycyjny",
-                        "calculated_weight_g": 355
+                        "nazwa": "Kurczak pieczony",
+                        "typ": "Białko",
+                        "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Sos śmietanowy",
-                        "typ": "Na bazie śmietany",
-                        "calculated_weight_g": 355
+                        "nazwa": "Tofu / Falafel",
+                        "typ": "Wege",
+                        "calculated_weight_g": 0
+                    },
+                    {
+                        "nazwa": "Gyros wieprzowy",
+                        "typ": "Białko",
+                        "calculated_weight_g": 0
                     }
                 ],
-                "visual_object_weight_g": 355
+                "visual_object_weight_g": 0
+            },
+            {
+                "przedmiot_wizualny": "Biały sos",
+                "procent_talerza": 5,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "POWLOKA_SOS",
+                "gestosc_wizualna": "SREDNIA",
+                "warianty": [
+                    {
+                        "nazwa": "Sos czosnkowy na majonezie",
+                        "typ": "Tłusty",
+                        "calculated_weight_g": 2
+                    },
+                    {
+                        "nazwa": "Sos jogurtowy",
+                        "typ": "Lekki",
+                        "calculated_weight_g": 2
+                    },
+                    {
+                        "nazwa": "Sos tahini",
+                        "typ": "Roślinny",
+                        "calculated_weight_g": 2
+                    }
+                ],
+                "visual_object_weight_g": 2
             }
         ],
         "kontekst_talerza": {
-            "czy_widac_warzywa": false,
+            "czy_widac_warzywa": true,
             "szacowany_rozmiar": "L"
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 265
+        "final_diameter_mm": 255
     }
 }

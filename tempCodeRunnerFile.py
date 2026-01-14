@@ -1,3 +1,2 @@
-def main():
-    json_data = analyze_full_plate(PROJECT_ID, LOCATION, MODEL_NAME,
-                                   IMG_PATH_TOP, IMG_PATH_SIDE)
+IMG_PATH_TOP = "Foto_Plates_2/tortilla_T.jpg"
+IMG_PATH_SIDE = "Foto_Plates_2/tortilla_L.jpg"

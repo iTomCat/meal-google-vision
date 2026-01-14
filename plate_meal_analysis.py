@@ -58,7 +58,7 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'LUZNY_STOS' (4cm - Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'ROLKA_NADZIEWANA' (Wrap, Tortilla, Naleśnik zwinięty - Dużo powietrza/lekki farsz), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree), 'LUZNY_STOS' (4cm - Makaron, Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'POWLOKA_SOS' (Sos na makaronie/sałacie - Cienka warstwa), 'ROLKA_NADZIEWANA' (Wrap, Tortilla, Naleśnik zwinięty - Dużo powietrza/lekki farsz), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
 ZASADY KATEGORYZACJI (Kluczowa logika):
@@ -68,7 +68,7 @@ ZASADY KATEGORYZACJI (Kluczowa logika):
 
 2. 'skladniki_niejednoznaczne': Produkty, które wymagają doprecyzowania przez użytkownika.
    - PRZYKŁADY: Rodzaj chleba, Typ sosu, Rodzaj napoju (Cola vs Zero), Skład kotleta.
-   - INSTRUKCJA WAŻNA: Dla każdego takiego produktu WYGENERUJ listę 'warianty' (Podaj od 2 do 3 najbardziej logicznych opcji dietetycznych, np. "Z Cukrem" vs "Słodzik").
+   - INSTRUKCJA WAŻNA: Dla każdego takiego produktu WYGENERUJ listę 'warianty' (Podaj od 2 do 4 najbardziej logicznych opcji dietetycznych, np. "Z Cukrem" vs "Słodzik").
 
 ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
    - WARIANT A: PRODUKT ROZMYTY / NA TALERZU (np. Puree, Kasza, Sos w miseczce)
@@ -92,6 +92,7 @@ WYMAGANY FORMAT JSON:
     "fallback_category_label": "string"
   },
   "food_analysis": {
+    "nazwa_dania": "String (np. Spaghetti Carbonara, Schabowy z ziemniakami)",
     "skladniki_pewne": [
       {
         "nazwa": "String (np. Ziemniaki)",
@@ -194,6 +195,13 @@ def analyze_full_plate(project_id, location, model_name, path_top, path_side):
             f"REFERENCJA:    {geometry.get('detected_reference_type', 'Brak')}")
         print(f"DEBUG METODY:  {geometry.get('measurement_method')}")
         print("-" * 70)
+
+        nazwa_potrawy = food.get("nazwa_dania", "Nierozpoznane danie")
+
+        print("\n" + "="*70)
+        # Tu wyświetlamy nazwę potrawy w nagłówku
+        print(f"🍽️  Nazwa dania: {nazwa_potrawy.upper()} ")
+        print("="*70)
 
         # A. SKŁADNIKI PEWNE
         print("✅ SKŁADNIKI PEWNE (Już przeliczone):")
