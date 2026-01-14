@@ -1,0 +1,57 @@
+{
+    "geometry_analysis": {
+        "vessel_type": "PLATE",
+        "visual_rim_check": "Gładki, biały rant bez dekoracji, widoczna krawędź zewnętrzna talerza obiadowego.",
+        "reference_found": true,
+        "detected_reference_type": "Widelec (192mm)",
+        "measurement_method": "CASE_PLATE",
+        "raw_visual_width_mm": 270,
+        "calculated_diameter_mm": 270,
+        "fallback_category_label": "PLATE_L"
+    },
+    "food_analysis": {
+        "skladniki_pewne": [
+            {
+                "nazwa": "Makaron spaghetti",
+                "stan_wizualny": "Ugotowany, wymieszany z sosem",
+                "procent_talerza": 75,
+                "charakter_przestrzenny": "LUZNY_STOS",
+                "gestosc_wizualna": "SREDNIA",
+                "calculated_weight_g": 569
+            },
+            {
+                "nazwa": "Sos Carbonara (jajka i ser)",
+                "stan_wizualny": "Tradycyjny (Sos emulsyjny)",
+                "procent_talerza": 75,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "WYSOKA",
+                "stopien_przetworzenia": "Nieznany",
+                "calculated_weight_g": 395,
+                "is_user_selected": true
+            },
+            {
+                "nazwa": "Boczek lub Guanciale",
+                "stan_wizualny": "Smażone, drobne kawałki wewnątrz makaronu",
+                "procent_talerza": 15,
+                "charakter_przestrzenny": "NISKI_KOPCZYK",
+                "gestosc_wizualna": "WYSOKA",
+                "calculated_weight_g": 197
+            },
+            {
+                "nazwa": "Tarty ser twardy",
+                "stan_wizualny": "Drobno tarty, posypany obficie na wierzchu",
+                "procent_talerza": 40,
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "SREDNIA",
+                "calculated_weight_g": 174
+            }
+        ],
+        "kontekst_talerza": {
+            "czy_widac_warzywa": false,
+            "szacowany_rozmiar": "L"
+        }
+    },
+    "meta_calculation": {
+        "final_diameter_mm": 270
+    }
+}

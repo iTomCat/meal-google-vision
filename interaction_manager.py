@@ -80,7 +80,10 @@ def resolve_user_conflicts(json_data):
 
     # --- CZYSZCZENIE JSONA ---
     # Po rozwiązaniu wszystkich konfliktów, lista niejednoznaczna ma być pusta
-    processed_data["food_analysis"]["skladniki_niejednoznaczne"] = []
+    # processed_data["food_analysis"]["skladniki_niejednoznaczne"] = []
+    # Usuwamy całkowicie klucz 'skladniki_niejednoznaczne', bo już wszystko wyjaśniliśmy
+    if "skladniki_niejednoznaczne" in processed_data["food_analysis"]:
+        del processed_data["food_analysis"]["skladniki_niejednoznaczne"]
 
     # Sortujemy listę pewnych (opcjonalnie), żeby była porządek
     # (np. od najcięższego składnika)
