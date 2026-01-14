@@ -11,8 +11,11 @@ MODEL_NAME = "gemini-3-flash-preview"
 # IMG_PATH_TOP = "Foto_Plates_2/dish_1_T.png"
 # IMG_PATH_SIDE = "Foto_Plates_2/dish_1_L.jpg"
 
-IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
-IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
+# IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
+# IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
+
+IMG_PATH_TOP = "Foto_Plates_2/tortilla_T.jpg"
+IMG_PATH_SIDE = "Foto_Plates_2/tortilla_L.jpg"
 
 
 def main():

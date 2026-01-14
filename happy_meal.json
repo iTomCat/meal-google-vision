@@ -1,60 +1,68 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Gładki, biały rant bez dekoracji, widoczna krawędź zewnętrzna talerza obiadowego.",
+        "visual_rim_check": "Gładki biały rant bez wzorów, wyraźna krawędź zewnętrzna",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 270,
-        "calculated_diameter_mm": 270,
+        "raw_visual_width_mm": 265,
+        "calculated_diameter_mm": 265,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
         "skladniki_pewne": [
             {
                 "nazwa": "Makaron spaghetti",
-                "stan_wizualny": "Ugotowany, wymieszany z sosem",
-                "procent_talerza": 75,
-                "charakter_przestrzenny": "LUZNY_STOS",
+                "stan_wizualny": "Ugotowany, wymieszany z sosem i ziołami",
+                "procent_talerza": 70,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "WYSOKI_KOPIEC",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 569
+                "calculated_weight_g": 1650
             },
             {
                 "nazwa": "Boczek lub Guanciale",
-                "stan_wizualny": "Smażone, drobne kawałki wewnątrz makaronu",
+                "stan_wizualny": "Smażone, drobne kawałki wymieszane z makaronem",
                 "procent_talerza": 15,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
                 "charakter_przestrzenny": "NISKI_KOPCZYK",
                 "gestosc_wizualna": "WYSOKA",
-                "calculated_weight_g": 197
+                "calculated_weight_g": 190
             },
             {
-                "nazwa": "Tarty ser twardy",
-                "stan_wizualny": "Drobno tarty, posypany obficie na wierzchu",
-                "procent_talerza": 40,
+                "nazwa": "Ser tarty (typu Parmezan/Pecorino)",
+                "stan_wizualny": "Sypki, obfita warstwa na wierzchu potrawy",
+                "procent_talerza": 45,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
                 "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 174
+                "calculated_weight_g": 188
             }
         ],
         "skladniki_niejednoznaczne": [
             {
-                "przedmiot_wizualny": "Sos emulsyjny",
-                "procent_talerza": 75,
+                "przedmiot_wizualny": "Baza sosu emulgująca makaron",
+                "procent_talerza": 70,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
                 "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "WYSOKA",
                 "warianty": [
                     {
-                        "nazwa": "Sos Carbonara (jajka i ser)",
+                        "nazwa": "Sos Carbonara (żółtka jaj, ser)",
                         "typ": "Tradycyjny",
-                        "calculated_weight_g": 395
+                        "calculated_weight_g": 355
                     },
                     {
                         "nazwa": "Sos śmietanowy",
-                        "typ": "Tłusty",
-                        "calculated_weight_g": 395
+                        "typ": "Na bazie śmietany",
+                        "calculated_weight_g": 355
                     }
                 ],
-                "visual_object_weight_g": 395
+                "visual_object_weight_g": 355
             }
         ],
         "kontekst_talerza": {
@@ -63,6 +71,6 @@
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 270
+        "final_diameter_mm": 265
     }
 }

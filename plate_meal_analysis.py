@@ -58,7 +58,7 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'LUZNY_STOS' (4cm - Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree, Makaron), 'LUZNY_STOS' (4cm - Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'ROLKA_NADZIEWANA' (Wrap, Tortilla, Naleśnik zwinięty - Dużo powietrza/lekki farsz), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
 ZASADY KATEGORYZACJI (Kluczowa logika):
@@ -97,6 +97,8 @@ WYMAGANY FORMAT JSON:
         "nazwa": "String (np. Ziemniaki)",
         "stan_wizualny": "String (np. Pieczone w mundurkach)",
         "procent_talerza": Integer (0-100),
+        "ilosc_sztuk": IntegerOrNull,
+        "typ_jednostki": "StringOrNull",
         "charakter_przestrzenny": "String (Z LISTY POWYŻEJ)",
         "gestosc_wizualna": "String (Z LISTY POWYŻEJ)",
       }
@@ -105,6 +107,8 @@ WYMAGANY FORMAT JSON:
       {
         "przedmiot_wizualny": "String (np. Biały Sos, Szklanka coli)",
         "procent_talerza": Integer,
+        "ilosc_sztuk": IntegerOrNull,
+        "typ_jednostki": "StringOrNull",
         "charakter_przestrzenny": "String (Z LISTY POWYŻEJ)",
         "gestosc_wizualna": "String (Z LISTY POWYŻEJ)",
         "warianty": [
@@ -207,10 +211,14 @@ def analyze_full_plate(project_id, location, model_name, path_top, path_side):
                 waga = item.get("calculated_weight_g", 0)
 
                 # 2. Formatujemy opis ilości
-                if item.get("ilosc_sztuk", 0) > 0:
-                    desc = f"{item.get('ilosc_sztuk')} x {item.get('typ_jednostki')}"
+                ilosc = item.get("ilosc_sztuk") or 0
+
+                if ilosc > 0:
+                    typ = item.get('typ_jednostki') or 'szt'
+                    desc = f"{ilosc} x {typ}"
                 else:
-                    desc = f"{item.get('procent_talerza')}%"
+                    proc = item.get('procent_talerza') or 0
+                    desc = f"{proc}%"
 
                 # 3. Wyświetlamy ze stanem wizualnym (używamy .get('', '') na wypadek braku opisu)
                 stan = item.get('stan_wizualny', '')
