@@ -3,6 +3,16 @@ from vertexai.generative_models import GenerativeModel, Part, HarmCategory, Harm
 import json
 from meal_weight_estimator import enrich_meal_json
 
+# -------------------------------------------------------------------
+# Określanie wielkości talerza/miski na podstawie dwóch zdjęć.
+# referencjie - widelc, łyzka itp
+# Skanowanie skłdnków posiłku
+# obliczanie przyblionej wagi składników - analiza ile procent zajmuje danie na talerzu
+# a następnie przeliczanie na gramy w zaleności od średniej wysokości i gęstości
+# -------------------------------------------------------------------
+# UWAGA LEPIEJ LICZY GDY TALERZ JEST WIĘKSZY TAK JAK NA ZDJĘCIU
+# danie_2a_T.jpg A NIE JAK NA ZDJĘCIU danie_2_T.jpg
+# -------------------------------------------------------------------
 
 # --- FINALNY SCALONY PROMPT ---
 SYSTEM_PROMPT = """
@@ -89,7 +99,6 @@ WYMAGANY FORMAT JSON:
         "procent_talerza": Integer (0-100),
         "charakter_przestrzenny": "String (Z LISTY POWYŻEJ)",
         "gestosc_wizualna": "String (Z LISTY POWYŻEJ)",
-        "stopien_przetworzenia": "Niski" | "Sredni" | "Wysoki"
       }
     ],
     "skladniki_niejednoznaczne": [

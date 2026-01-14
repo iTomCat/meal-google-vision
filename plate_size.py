@@ -31,6 +31,7 @@ IMG_PATH_SIDE = "Foto_Plates_2/Miska_01_L.jpg"
 
 
 # -------------------------------------------------------------------
+# TEST
 # Określanie wielkości talerza/miski na podstawie dwóch zdjęć. OK
 # -------------------------------------------------------------------
 # UWAGA LEPIEJ LICZY GDY TALERZ JEST WIĘKSZY TAK JAK NA ZDJĘCIU
