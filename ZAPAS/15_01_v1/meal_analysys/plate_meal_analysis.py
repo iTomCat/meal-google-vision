@@ -66,14 +66,14 @@ ZASADY KATEGORYZACJI (Kluczowa logika):
    - MOGĄ BYĆ NA TALERZU (licz procentem).
    - MOGĄ BYĆ POZA TALERZEM (licz sztukami).
 
-2. 'skladniki_niejednoznaczne': Produkty, które wymagają doprecyzowania LUB są ukryte.
-   Obsłuż TRZY PRZYPADKI:
+2. 'skladniki_niejednoznaczne': : Produkty, które wymagają doprecyzowania LUB są ukryte.
+   Obsłuż DWA PRZYPADKI:
 
-   PRZYPADEK A: PRODUKT WIDOCZNY, ALE NIEJEDNOZNACZNY (Pytania o wariant)
-   - PRZYKŁADY: Rodzaj chleba (Jasny/Ciemny), Typ sosu, Rodzaj napoju.
-   - INSTRUKCJA: Wygeneruj 'warianty' (2-4 opcje, np. "Z Cukrem" vs "Słodzik", "Pszenny" vs "Pełnoziarnisty").
+   PRZYPADEK A: PRODUKT WIDOCZNY, ALE NIEJEDNOZNACZNY
+   - PRZYKŁADY: Rodzaj chleba, Typ sosu, Rodzaj napoju (Cola vs Zero), Skład kotleta.
+   - INSTRUKCJA: Wygeneruj listę 'warianty' (2-4 opcje, np. "Z Cukrem" vs "Słodzik", "Pszenny" vs "Pełnoziarnisty").
 
-   PRZYPADEK B: PRODUKT UKRYTY CAŁKOWICIE / WSAD (Wrapy, Kebaby, Pierogi)
+   PRZYPADEK B: PRODUKT UKRYTY / WSAD (Wrapy, Kebaby, Pierogi)
    - INSTRUKCJA ROZBIJANIA WSADU: Nie wrzucaj całego nadzienia do jednego worka! Rozbij je na logiczne części składowe na liście składników niejednoznacznych.
    - PRZYKŁAD DEDUKCJI (Wrap śródziemnomorski):
      Zamiast jednego "Wsad Grecki", wygeneruj osobne pozycje:
@@ -81,15 +81,6 @@ ZASADY KATEGORYZACJI (Kluczowa logika):
      2. Dodatek 1: "Czarne oliwki" (Typ jednostki: 'garsc').
      3. Dodatek 2: "Suszone pomidory" (Typ jednostki: 'plaster').
 
-   PRZYPADEK C: DOPRECYZOWANIE SKŁADNIKA WIDOCZNEGO (Kluczowe dla kalorii!)
-   - PRZYKŁADY: "Jaki rodzaj mięsa w kotlecie?", "Jaki typ panierki?".
-   - ZASADA: Skoro policzyłeś już wagę bryły kotleta w 'skladniki_pewne', to NIE DODAWAJ JEJ DRUGI RAZ tutaj.
-   - INSTRUKCJA:
-     1. WAŻNE: W polu 'dotyczy_skladnika' wpisz nazwę składnika, o który pytasz (np. "Kotlety w panierce"). Dzięki temu system połączy odpowiedź z wagą bryły!
-     2. WAŻNE: Ustaw wagę tych wariantów na 0 (lub null). Chodzi o to, by użytkownik wskazał TYP mięsa dla bryły policzonej wcześniej, a nie dodał nowe mięso.
-     3. ZASADA ROZDZIELANIA: Każda cecha (np. Rodzaj mięsa, Typ panierki, Sposób smażenia) musi stanowić OSOBNY obiekt na liście.
-     4. Nie łącz różnych cech w jedno pytanie. Jeśli chcesz zapytać o mięso i panierkę -> wygeneruj dwa osobne wpisy.
-    
 
 ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
    - WARIANT A: PRODUKT ROZMYTY / NA TALERZU (np. Puree, Kasza, Sos w miseczce)
@@ -105,7 +96,7 @@ ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
      -> 'ilosc_sztuk': 1 (lub szacowana liczba garści/plastrów).
      -> 'typ_jednostki':
         - Dla mięsa/głównego białka: 'porcja_wsad' (120g) lub 'porcja_ser' (80g).
-        - Dla warzyw w środku: 'garsc' (30g) lub 'plaster' (20g).
+        - Dla warzyw w środku: 'garsc' (30g) lub 'plaster' (20g).  
 
 WYMAGANY FORMAT JSON:
 {
@@ -135,9 +126,6 @@ WYMAGANY FORMAT JSON:
     "skladniki_niejednoznaczne": [
       {
         "przedmiot_wizualny": "String (np. Szklanka coli LUB Wsad wrapa)",
-        "dotyczy_skladnika": "String (WAŻNE: Jeśli to pytanie doprecyzowuje składnik widoczny wyżej, wpisz tutaj DOKŁADNĄ nazwę tego składnika z listy 'skladniki_pewne'. Jeśli to nowy/ukryty składnik, wpisz null)",
-        "czy_wsad_ukryty": Boolean (WAŻNE: True TYLKO dla dań zamkniętych jak Wrap/Burrito, Pierogi, Kebbaby gdzie użytkownik może chcieć dodać ręcznie ukryte warzywa. False dla kotletów/pizzy/Rodzaj chleba),
-        "procent_talerza": Integer,
         "procent_talerza": Integer,
         "ilosc_sztuk": IntegerOrNull,
         "typ_jednostki": "StringOrNull (porcja_wsad, porcja_ser, garsc, plaster - DLA WSADÓW)",
@@ -218,9 +206,9 @@ def analyze_full_plate(project_id, location, model_name, path_top, path_side):
         # ------------------------------------------
 
         # --- RAPORT KOŃCOWY ---
-        print("\n" + "=" * 70)
+        print("\n" + "="*70)
         print(f"🍽️  RAPORT PEŁNY (Talerz: {diameter} mm)")
-        print("=" * 70)
+        print("="*70)
 
         print(
             f"REFERENCJA:    {geometry.get('detected_reference_type', 'Brak')}")
@@ -229,10 +217,10 @@ def analyze_full_plate(project_id, location, model_name, path_top, path_side):
 
         nazwa_potrawy = food.get("nazwa_dania", "Nierozpoznane danie")
 
-        print("\n" + "=" * 70)
+        print("\n" + "="*70)
         # Tu wyświetlamy nazwę potrawy w nagłówku
         print(f"🍽️  Nazwa dania: {nazwa_potrawy.upper()} ")
-        print("=" * 70)
+        print("="*70)
 
         # A. SKŁADNIKI PEWNE
         print("✅ SKŁADNIKI PEWNE (Już przeliczone):")
@@ -285,7 +273,7 @@ def analyze_full_plate(project_id, location, model_name, path_top, path_side):
                     print(
                         f"         - [ ] {wariant.get('nazwa'):<20} -> {waga_wariantu} g")
 
-        print("=" * 70)
+        print("="*70)
         print(
             f"DEBUG GEO: {geometry.get('vessel_type')} | Raw: {geometry.get('raw_visual_width_mm')} -> Calc: {geometry.get('calculated_diameter_mm')}")
 

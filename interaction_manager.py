@@ -1,14 +1,9 @@
-
 import copy
-
 
 def resolve_user_conflicts(json_data):
     """
-    Wybór skłdników niejednoznacznych przez użytkownika.
-    SYMULACJA DZIAŁANIA W APLIKACJI FLUTTER.
-    Iteruje po składnikach niejednoznacznych, prosi użytkownika o wybór
-    i przenosi wybrany wariant do składników pewnych.
-    Zwraca czysty JSON bez sekcji 'niejednoznaczne'.
+    Wybór składników niejednoznacznych przez użytkownika (CLI).
+    Łączy interaktywny wybór z logiką scalania nazw (target_name).
     """
 
     # Robimy kopię, żeby nie psuć oryginału w trakcie pętli
@@ -24,27 +19,28 @@ def resolve_user_conflicts(json_data):
         return processed_data
 
     print("\n" + "!"*60)
-    print(
-        f"😊 WYMAGANA INTERWENCJA UŻYTKOWNIKA ({len(niejednoznaczne)} decyzji)")
+    print(f"😊 WYMAGANA INTERWENCJA UŻYTKOWNIKA ({len(niejednoznaczne)} decyzji)")
     print("!"*60)
 
     # Iterujemy po każdym niejednoznacznym obiekcie
     for index, item in enumerate(niejednoznaczne):
         print(f"\n👉 DECYZJA {index + 1}/{len(niejednoznaczne)}")
-        print(f"   Widzę: {item.get('przedmiot_wizualny')}")
-        print(f"   Waga bryły: ~{item.get('visual_object_weight_g')} g")
-        print(f"   Kontekst: {item.get('procent_talerza')}% talerza")
-        print("-" * 40)
+        print(f"   Pytanie: {item.get('przedmiot_wizualny')}")
+        
+        target_name = item.get("dotyczy_skladnika")
+        if target_name:
+            print(f"   🔗 DOTYCZY SKŁADNIKA: '{target_name}'")
+        else:
+            print(f"   ➕ TO BĘDZIE NOWY SKŁADNIK")
 
         warianty = item.get("warianty", [])
 
         # Wyświetlamy opcje
         for i, wariant in enumerate(warianty):
             print(f"   [{i + 1}] {wariant.get('nazwa')}")
-            print(f"       Opis: {wariant.get('typ')}")
-            print(f"       Waga: {wariant.get('calculated_weight_g')} g")
+            # print(f"       Waga: {wariant.get('calculated_weight_g')} g")
 
-        # Pętla walidacji inputu
+        # --- PĘTLA WALIDACJI INPUTU (Manualny wybór) ---
         wybor = -1
         while True:
             try:
@@ -59,35 +55,61 @@ def resolve_user_conflicts(json_data):
 
         # Pobieramy wybrany wariant
         wybrany_wariant = warianty[wybor - 1]
+        print(f"   ✅ Wybrano: {wybrany_wariant.get('nazwa')}")
 
-        # --- TWORZENIE NOWEGO SKŁADNIKA PEWNEGO ---
-        # Łączymy dane fizyczne z rodzica (item) z danymi dietetycznymi z dziecka (wariant)
-        nowy_skladnik = {
-            "nazwa": wybrany_wariant.get("nazwa"),
-            # Łączymy typ wariantu z opisem wizualnym dla pełnego kontekstu
-            "stan_wizualny": f"{wybrany_wariant.get('typ')} ({item.get('przedmiot_wizualny')})",
-            "procent_talerza": item.get("procent_talerza"),
-            "charakter_przestrzenny": item.get("charakter_przestrzenny"),
-            "gestosc_wizualna": item.get("gestosc_wizualna"),
-            # Ważne: Może nie być stopnia przetworzenia w niejednoznacznych, ustawiamy domyślny
-            "stopien_przetworzenia": "Nieznany",
-            "calculated_weight_g": wybrany_wariant.get("calculated_weight_g"),
-            "is_user_selected": True  # Opcjonalna flaga, że to user wybrał
-        }
+        # ========================================================
+        # 🔥 LOGIKA SCALANIA (MERGE LOGIC) - ZINTEGROWANA 🔥
+        # ========================================================
+        
+        if target_name:
+            # SCENARIUSZ A: DOPRECYZOWANIE (Scalanie nazwy)
+            znaleziono = False
+            for istniejacy in pewne:
+                aktualna_nazwa = istniejacy.get("nazwa", "")
+                
+                # Kluczowy warunek startswith
+                if aktualna_nazwa == target_name or aktualna_nazwa.startswith(target_name + " ("):
+                    stara_nazwa = istniejacy["nazwa"]
+                    dodatek = wybrany_wariant["nazwa"]
+                    
+                    # Scalanie nazwy
+                    istniejacy["nazwa"] = f"{stara_nazwa} ({dodatek})"
+                    print(f"      🔄 ZAKTUALIZOWANO NAZWĘ: '{istniejacy['nazwa']}'")
+                    znaleziono = True
+                    break
+            
+            if not znaleziono:
+                print(f"      ⚠️ NIE ZNALEZIONO '{target_name}'. Dodaję jako nowy.")
+                # Fallback - dodajemy jako nowy, formatując go poprawnie
+                nowy_skladnik = {
+                    "nazwa": wybrany_wariant.get("nazwa"),
+                    "calculated_weight_g": wybrany_wariant.get("calculated_weight_g", 0),
+                    "stan_wizualny": f"Opcja wybrana: {wybrany_wariant.get('typ', '')}",
+                    "procent_talerza": 0
+                }
+                pewne.append(nowy_skladnik)
 
-        pewne.append(nowy_skladnik)
-        print(f"   ✅ Dodano: {nowy_skladnik['nazwa']}")
+        else:
+            # SCENARIUSZ B: NOWY SKŁADNIK (np. Wsad wrapa)
+            print(f"      ➕ DODANO NOWĄ POZYCJĘ: {wybrany_wariant.get('nazwa')}")
+            
+            # Tworzymy pełny obiekt składnika
+            nowy_skladnik = {
+                "nazwa": wybrany_wariant.get("nazwa"),
+                "calculated_weight_g": wybrany_wariant.get("calculated_weight_g", 0),
+                "stan_wizualny": f"{wybrany_wariant.get('typ', '')} ({item.get('przedmiot_wizualny')})",
+                "procent_talerza": item.get("procent_talerza", 0),
+                # Przenosimy inne metadane jeśli są potrzebne
+                "charakter_przestrzenny": item.get("charakter_przestrzenny"),
+                "gestosc_wizualna": item.get("gestosc_wizualna")
+            }
+            pewne.append(nowy_skladnik)
+        
+        # ========================================================
 
     # --- CZYSZCZENIE JSONA ---
-    # Po rozwiązaniu wszystkich konfliktów, lista niejednoznaczna ma być pusta
-    # processed_data["food_analysis"]["skladniki_niejednoznaczne"] = []
-    # Usuwamy całkowicie klucz 'skladniki_niejednoznaczne', bo już wszystko wyjaśniliśmy
     if "skladniki_niejednoznaczne" in processed_data["food_analysis"]:
         del processed_data["food_analysis"]["skladniki_niejednoznaczne"]
-
-    # Sortujemy listę pewnych (opcjonalnie), żeby była porządek
-    # (np. od najcięższego składnika)
-    pewne.sort(key=lambda x: x.get('calculated_weight_g', 0), reverse=True)
 
     print("\n" + "="*60)
     print("✨ KONIEC INTERAKCJI. JSON GOTOWY.")

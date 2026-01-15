@@ -1,62 +1,76 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Gładki, biały talerz bez widocznego rantu dekoracyjnego lub wzorów.",
+        "visual_rim_check": "Gładki, biały rant bez wzorów, wyraźnie płaski profil naczynia.",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 240,
-        "calculated_diameter_mm": 240,
+        "raw_visual_width_mm": 260,
+        "calculated_diameter_mm": 260,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
-        "nazwa_dania": "Kurczak w panierce z ryżem",
+        "nazwa_dania": "Spaghetti Carbonara",
         "skladniki_pewne": [
             {
-                "nazwa": "Ryż biały",
-                "stan_wizualny": "Gotowany na sypko",
-                "procent_talerza": 40,
+                "nazwa": "Makaron spaghetti",
+                "stan_wizualny": "Gotowany, wymieszany z sosem",
+                "procent_talerza": 75,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "KOPCZYK_SYPKI",
+                "charakter_przestrzenny": "LUZNY_STOS",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 247
+                "calculated_weight_g": 527
             },
             {
-                "nazwa": "Kawałki kurczaka w panierce",
-                "stan_wizualny": "Smażone na złocisto, chrupiąca panierka",
-                "procent_talerza": 45,
+                "nazwa": "Boczek / Guanciale",
+                "stan_wizualny": "Smażone kawałki w sosie",
+                "procent_talerza": 12,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "WYSOKA",
-                "calculated_weight_g": 234
+                "calculated_weight_g": 29
+            },
+            {
+                "nazwa": "Ser tarty (Parmezan/Pecorino)",
+                "stan_wizualny": "Sypki, na wierzchu dania",
+                "procent_talerza": 30,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "POWLOKA_SOS",
+                "gestosc_wizualna": "SREDNIA",
+                "calculated_weight_g": 15
             }
         ],
         "skladniki_niejednoznaczne": [
             {
-                "przedmiot_wizualny": "Mięso wewnątrz panierki",
+                "przedmiot_wizualny": "Baza sosu",
+                "dotyczy_skladnika": "Makaron spaghetti",
+                "czy_wsad_ukryty": false,
                 "procent_talerza": 0,
-                "ilosc_sztuk": 1,
-                "typ_jednostki": "porcja_wsad",
-                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
-                "gestosc_wizualna": "WYSOKA",
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "POWLOKA_SOS",
+                "gestosc_wizualna": "SREDNIA",
                 "warianty": [
                     {
-                        "nazwa": "Pierś z kurczaka",
-                        "typ": "Chude",
-                        "calculated_weight_g": 120
+                        "nazwa": "Tradycyjna (Jajko i Ser)",
+                        "typ": "Klasyczna",
+                        "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Mięso z udka kurczaka",
-                        "typ": "Tłustsze/Soczyste",
-                        "calculated_weight_g": 120
+                        "nazwa": "Z dodatkiem śmietany",
+                        "typ": "Kremowa",
+                        "calculated_weight_g": 0
                     }
                 ],
-                "visual_object_weight_g": 120
+                "visual_object_weight_g": 0
             },
             {
-                "przedmiot_wizualny": "Rodzaj panierki",
+                "przedmiot_wizualny": "Rodzaj mięsa",
+                "dotyczy_skladnika": "Boczek / Guanciale",
+                "czy_wsad_ukryty": false,
                 "procent_talerza": 0,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
@@ -64,13 +78,13 @@
                 "gestosc_wizualna": "WYSOKA",
                 "warianty": [
                     {
-                        "nazwa": "Panierka klasyczna (bułka tarta)",
-                        "typ": "Standard",
+                        "nazwa": "Guanciale (Podgardle)",
+                        "typ": "Tłuste",
                         "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Panierka typu Panko/Płatki",
-                        "typ": "Chrupiąca",
+                        "nazwa": "Boczek wędzony",
+                        "typ": "Standard",
                         "calculated_weight_g": 0
                     }
                 ],
@@ -78,11 +92,11 @@
             }
         ],
         "kontekst_talerza": {
-            "czy_widac_warzywa": false,
+            "czy_widac_warzywa": true,
             "szacowany_rozmiar": "L"
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 240
+        "final_diameter_mm": 260
     }
 }

@@ -1,84 +1,23 @@
 {
-    "geometry_analysis": {
-        "vessel_type": "PLATE",
-        "visual_rim_check": "Gładki, biały rant bez wzorów, widoczna krawędź zewnętrzna.",
-        "reference_found": true,
-        "detected_reference_type": "Widelec (192mm)",
-        "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 260,
-        "calculated_diameter_mm": 260,
-        "fallback_category_label": "PLATE_L"
+  "meta": {
+    "talerz_srednica_mm": 260,
+    "calkowita_waga_g": 571
+  },
+  "skladniki": [
+    {
+      "nazwa": "Makaron spaghetti (Tradycyjna (Jajko i Ser))",
+      "waga_g": 527,
+      "stan": "Gotowany, wymieszany z sosem"
     },
-    "food_analysis": {
-        "nazwa_dania": "Grillowana pierś z kurczaka z pieczonymi ziemniakami i sałatką",
-        "skladniki_pewne": [
-            {
-                "nazwa": "Pierś z kurczaka grillowana",
-                "stan_wizualny": "Pokrojona w ukośne plastry, widoczne ślady grillowania i zioła",
-                "procent_talerza": 25,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "NISKI_KOPCZYK",
-                "gestosc_wizualna": "WYSOKA",
-                "calculated_weight_g": 305
-            },
-            {
-                "nazwa": "Ziemniaki pieczone",
-                "stan_wizualny": "Małe ziemniaki typu baby, pieczone w całości z ziołami",
-                "procent_talerza": 20,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "NISKI_KOPCZYK",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 201
-            },
-            {
-                "nazwa": "Mix sałat z warzywami",
-                "stan_wizualny": "Świeża sałata, pomidorki koktajlowe, ogórek, czerwona cebula",
-                "procent_talerza": 45,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "LUZNY_STOS",
-                "gestosc_wizualna": "NISKA",
-                "calculated_weight_g": 99
-            },
-            {
-                "nazwa": "Chleb pszenny",
-                "stan_wizualny": "Dwie kromki pieczywa leżące obok talerza",
-                "procent_talerza": 0,
-                "ilosc_sztuk": 2,
-                "typ_jednostki": "kromka",
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 70
-            },
-            {
-                "nazwa": "Sos czosnkowy",
-                "stan_wizualny": "Kremowy (Sos w małej miseczce)",
-                "procent_talerza": 10,
-                "charakter_przestrzenny": "SOS_W_MISECZCE",
-                "gestosc_wizualna": "WYSOKA",
-                "stopien_przetworzenia": "Nieznany",
-                "calculated_weight_g": 53,
-                "is_user_selected": true
-            },
-            {
-                "nazwa": "Ser kozi miękki",
-                "stan_wizualny": "Kremowy (Biały ser na sałatce)",
-                "procent_talerza": 0,
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
-                "gestosc_wizualna": "SREDNIA",
-                "stopien_przetworzenia": "Nieznany",
-                "calculated_weight_g": 30,
-                "is_user_selected": true
-            }
-        ],
-        "kontekst_talerza": {
-            "czy_widac_warzywa": true,
-            "szacowany_rozmiar": "L"
-        }
+    {
+      "nazwa": "Boczek / Guanciale (Boczek wędzony)",
+      "waga_g": 29,
+      "stan": "Smażone kawałki w sosie"
     },
-    "meta_calculation": {
-        "final_diameter_mm": 260
+    {
+      "nazwa": "Ser tarty (Parmezan/Pecorino)",
+      "waga_g": 15,
+      "stan": "Sypki, na wierzchu dania"
     }
+  ]
 }

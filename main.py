@@ -11,14 +11,14 @@ MODEL_NAME = "gemini-3-flash-preview"
 # IMG_PATH_TOP = "Foto_Plates_2/dish_1_T.png"
 # IMG_PATH_SIDE = "Foto_Plates_2/dish_1_L.jpg"
 
-# IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
-# IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
+IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
+IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
 
 # IMG_PATH_TOP = "Foto_Plates_2/tortilla_T.jpg"
 # IMG_PATH_SIDE = "Foto_Plates_2/tortilla_L.jpg"
 
-IMG_PATH_TOP = "Foto_Plates_2/kurczak_ryz_T.jpg"
-IMG_PATH_SIDE = "Foto_Plates_2/kurczak_ryz_L.jpg"
+# IMG_PATH_TOP = "Foto_Plates_2/kurczak_ryz_T.jpg"
+# IMG_PATH_SIDE = "Foto_Plates_2/kurczak_ryz_L.jpg"
 
 
 def main():
@@ -35,48 +35,68 @@ def main():
         except Exception as e:
             print(f"Błąd podczas zapisywania pliku: {e}")
 
-    # --- Symulacja wybory nieznanych skłdników i zapis do JSON ---
     if json_data:
         try:
-            # KROK 2: Interakcja z użytkownikiem
-            print("\n--- ROZPOCZYNAMY INTERAKCJĘ ---")
-            final_json = resolve_user_conflicts(json_data)
+            # 1. Wywołujemy funkcję interaktywną (tę z input() i logiką scalania)
+            # Funkcja ta zwraca zaktualizowany obiekt JSON (wszystko przeniesione do 'skladniki_pewne')
+            final_data_processed = resolve_user_conflicts(json_data)
 
-            # Zabezpieczenie: Sprawdzamy czy funkcja nie zwróciła pustego obiektu/None
-            if not final_json:
-                raise ValueError(
-                    "Funkcja resolve_user_conflicts nie zwróciła danych.")
+            # 2. GENEROWANIE PLIKU KOŃCOWEGO (Na podstawie wyborów użytkownika)
+            print("\n" + "=" * 60)
+            print("📂 TWORZENIE PLIKU KOŃCOWEGO: 'happy_meal_final.json'")
 
-            # KROK 3: Bezpieczne pobieranie listy składników (używamy .get() zamiast nawiasów [])
-            # Dzięki temu, jeśli klucz nie istnieje, dostaniemy pustą listę zamiast błędu KeyError
-            food_analysis = final_json.get("food_analysis", {})
-            skladniki = food_analysis.get("skladniki_pewne", [])
+            food = final_data_processed.get("food_analysis", {})
+            # Po resolve_user_conflicts lista 'skladniki_niejednoznaczne' jest pusta,
+            # a scalone wyniki są w 'skladniki_pewne'.
+            final_ingredients = food.get("skladniki_pewne", [])
+            
+            # Pobieramy średnicę (bezpiecznie)
+            diameter = final_data_processed.get("meta_calculation", {}).get("final_diameter_mm", 0)
 
-            print("\n📂 FINALNA ZAWARTOŚĆ SKŁADNIKÓW:")
-            if not skladniki:
-                print("   (Lista składników jest pusta)")
-            else:
-                for item in skladniki:
-                    nazwa = item.get('nazwa', 'Nieznany produkt')
-                    waga = item.get('calculated_weight_g', 0)
-                    print(f" - {nazwa} ({waga}g)")
+            final_list_clean = []
+            total_meal_weight = 0
 
-            # KROK 4: Zapis pliku (Osobny try-except dla operacji na plikach)
-            filename = 'happy_meal_final.json'
-            try:
-                with open(filename, 'w', encoding='utf-8') as f:
-                    json.dump(final_json, f, ensure_ascii=False, indent=4)
-                print(f"\n💾 Sukces! Zapisano wynik w pliku '{filename}'")
-            except IOError as e:
-                print(
-                    f"\n❌ BŁĄD ZAPISU PLIKU: Nie udało się zapisać '{filename}'. Powód: {e}")
+            # Przetwarzamy listę do czystego formatu
+            for item in final_ingredients:
+                nazwa = item.get("nazwa")
+                # Waga może być pod calculated_weight_g (z wariantu) lub visual_object_weight_g (z bryły)
+                waga = item.get("calculated_weight_g") or item.get("visual_object_weight_g") or 0
+                
+                total_meal_weight += waga
+                
+                final_list_clean.append({
+                    "nazwa": nazwa,
+                    "waga_g": waga,
+                    "stan": item.get("stan_wizualny", "Standard")
+                })
+
+            # Wyświetlamy podsumowanie w konsoli
+            print("-" * 30)
+            for f in final_list_clean:
+                print(f" - {f['nazwa']:<40} {f['waga_g']} g")
+            print("-" * 30)
+            print(f"SUMA CAŁKOWITA: {total_meal_weight} g")
+            print("=" * 60)
+
+            # Konstrukcja obiektu wyjściowego
+            final_json_output = {
+                "meta": {
+                    "talerz_srednica_mm": diameter,
+                    "calkowita_waga_g": total_meal_weight
+                },
+                "skladniki": final_list_clean
+            }
+
+            # Zapis do pliku
+            with open('happy_meal_final.json', 'w', encoding='utf-8') as f:
+                json.dump(final_json_output, f, ensure_ascii=False, indent=2)
+            print("💾 ZAPISANO: happy_meal_final.json")
+
+            # Opcjonalnie zwróć wynik
+            # return final_json_output
 
         except Exception as e:
-            # Ten blok złapie błędy logiczne w kodzie powyżej
-            print(f"\n❌ WYSTĄPIŁ BŁĄD PODCZAS PRZETWARZANIA: {e}")
-
-    else:
-        print("❌ Nie otrzymano danych z analizy obrazu (json_data is None).")
+            print(f"❌ Błąd podczas przetwarzania końcowego: {e}")
 
 
 if __name__ == "__main__":
