@@ -1,5 +1,5 @@
 import json
-from plate_meal_analysis import analyze_full_plate
+from meal_analysys.plate_meal_analysis import analyze_full_plate
 from interaction_manager import resolve_user_conflicts
 
 # --- KONFIGURACJA ---
@@ -14,8 +14,11 @@ MODEL_NAME = "gemini-3-flash-preview"
 # IMG_PATH_TOP = "Foto_Plates_2/Carbon_T.jpg"
 # IMG_PATH_SIDE = "Foto_Plates_2/Carbon_L.jpg"
 
-IMG_PATH_TOP = "Foto_Plates_2/tortilla_T.jpg"
-IMG_PATH_SIDE = "Foto_Plates_2/tortilla_L.jpg"
+# IMG_PATH_TOP = "Foto_Plates_2/tortilla_T.jpg"
+# IMG_PATH_SIDE = "Foto_Plates_2/tortilla_L.jpg"
+
+IMG_PATH_TOP = "Foto_Plates_2/kurczak_ryz_T.jpg"
+IMG_PATH_SIDE = "Foto_Plates_2/kurczak_ryz_L.jpg"
 
 
 def main():

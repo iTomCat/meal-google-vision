@@ -1,7 +1,7 @@
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part, HarmCategory, HarmBlockThreshold
 import json
-from meal_weight_estimator import enrich_meal_json
+from meal_analysys.meal_weight_estimator import enrich_meal_json
 
 # -------------------------------------------------------------------
 # Określanie wielkości talerza/miski na podstawie dwóch zdjęć.
@@ -14,7 +14,7 @@ from meal_weight_estimator import enrich_meal_json
 # danie_2a_T.jpg A NIE JAK NA ZDJĘCIU danie_2_T.jpg
 # -------------------------------------------------------------------
 
-# --- FINALNY SCALONY PROMPT ---
+# --- PROMPT ---
 SYSTEM_PROMPT = """
 Jesteś zaawansowanym sensorem wizualnym dla aplikacji dietetycznej.
 Twoim zadaniem jest ekstrakcja faktów z obrazu w dwóch wymiarach:
@@ -58,7 +58,7 @@ Twoim celem jest rozbicie posiłku na składniki i opisanie ich FIZYKI (żeby po
 Spójrz na DRUGI OBRAZ (Side-View), aby ocenić parametr 'charakter_przestrzenny' (wysokość).
 
 DEFINICJE PARAMETRÓW FIZYCZNYCH:
-- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.5cm - Wędlina, Naleśnik), 'NISKI_KOPCZYK' (2cm - Kotlet, Filet, Ryż, Kasza, Ziemniaki kawałki/całe), 'WYSOKI_KOPIEC' (4cm - Puree), 'LUZNY_STOS' (4cm - Makaron, Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'POWLOKA_SOS' (Sos na makaronie/sałacie - Cienka warstwa), 'ROLKA_NADZIEWANA' (Wrap, Tortilla, Naleśnik zwinięty - Dużo powietrza/lekki farsz), 'CIECZ'.
+- 'charakter_przestrzenny': 'PLASKI_WARSTWA' (0.4cm - Plaster wędliny/sera, Pusty naleśnik), 'PLASKI_WARSTWA_GRUBA' (1.0cm - Kotlet schabowy/drobiowy, Ryż rozłożony płasko, Pizza, Ryba smażona - Równe płaskie bryły), 'KOPCZYK_ZWARTY' (3.0cm - Ziemniaki kawałki/całe, Pulpety, Gęste gulasze, Bigos - Strome ścianki), 'KOPCZYK_SYPKI' (2.4cm - Ryż w kopczyku, Kasza, Risotto - Kształt stożka łagodnie opadający), 'WYSOKI_KOPIEC' (4cm - Puree), 'LUZNY_STOS' (4cm - Makaron, Spaghetti, Sałata, Frytki, Chipsy - Dużo powietrza), 'BRYLA_ZWARTA' (3D - Jabłko, Udko z kością), 'SOS_W_MISECZCE' (Małe naczynie), 'POWLOKA_SOS' (Sos na makaronie/sałacie - Cienka warstwa), 'ROLKA_NADZIEWANA' (Wrap, Tortilla, Naleśnik zwinięty - Dużo powietrza/lekki farsz), 'CIECZ'.
 - 'gestosc_wizualna': 'NISKA' (Sałata), 'SREDNIA' (Ziemniaki, Ryż), 'WYSOKA' (Mięso, Ciasto).
 
 ZASADY KATEGORYZACJI (Kluczowa logika):
@@ -66,9 +66,21 @@ ZASADY KATEGORYZACJI (Kluczowa logika):
    - MOGĄ BYĆ NA TALERZU (licz procentem).
    - MOGĄ BYĆ POZA TALERZEM (licz sztukami).
 
-2. 'skladniki_niejednoznaczne': Produkty, które wymagają doprecyzowania przez użytkownika.
+2. 'skladniki_niejednoznaczne': : Produkty, które wymagają doprecyzowania LUB są ukryte.
+   Obsłuż DWA PRZYPADKI:
+
+   PRZYPADEK A: PRODUKT WIDOCZNY, ALE NIEJEDNOZNACZNY
    - PRZYKŁADY: Rodzaj chleba, Typ sosu, Rodzaj napoju (Cola vs Zero), Skład kotleta.
-   - INSTRUKCJA WAŻNA: Dla każdego takiego produktu WYGENERUJ listę 'warianty' (Podaj od 2 do 4 najbardziej logicznych opcji dietetycznych, np. "Z Cukrem" vs "Słodzik").
+   - INSTRUKCJA: Wygeneruj listę 'warianty' (2-4 opcje, np. "Z Cukrem" vs "Słodzik", "Pszenny" vs "Pełnoziarnisty").
+
+   PRZYPADEK B: PRODUKT UKRYTY / WSAD (Wrapy, Kebaby, Pierogi)
+   - INSTRUKCJA ROZBIJANIA WSADU: Nie wrzucaj całego nadzienia do jednego worka! Rozbij je na logiczne części składowe na liście składników niejednoznacznych.
+   - PRZYKŁAD DEDUKCJI (Wrap śródziemnomorski):
+     Zamiast jednego "Wsad Grecki", wygeneruj osobne pozycje:
+     1. Główny wsad: "Ser Halloumi" (Typ jednostki: 'porcja_ser') LUB "Kurczak" (Typ: 'porcja_wsad').
+     2. Dodatek 1: "Czarne oliwki" (Typ jednostki: 'garsc').
+     3. Dodatek 2: "Suszone pomidory" (Typ jednostki: 'plaster').
+
 
 ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
    - WARIANT A: PRODUKT ROZMYTY / NA TALERZU (np. Puree, Kasza, Sos w miseczce)
@@ -78,6 +90,13 @@ ZASADA WYBORU METODY POMIARU (Dotyczy obu powyższych kategorii):
    - WARIANT B: PRODUKT POLICZALNY / POZA TALERZEM (np. Całe Jabłko, Kromka chleba, Szklanka)
      -> Ustaw 'procent_talerza': 0.
      -> Wypełnij 'ilosc_sztuk' (Integer) oraz 'typ_jednostki' (np. 'sztuka', 'kromka', 'szklanka').
+
+   - WARIANT C: UKRYTE SKŁADNIKI (DEDUKCJA):
+     -> 'procent_talerza': 0.
+     -> 'ilosc_sztuk': 1 (lub szacowana liczba garści/plastrów).
+     -> 'typ_jednostki':
+        - Dla mięsa/głównego białka: 'porcja_wsad' (120g) lub 'porcja_ser' (80g).
+        - Dla warzyw w środku: 'garsc' (30g) lub 'plaster' (20g).  
 
 WYMAGANY FORMAT JSON:
 {
@@ -92,7 +111,7 @@ WYMAGANY FORMAT JSON:
     "fallback_category_label": "string"
   },
   "food_analysis": {
-    "nazwa_dania": "String (np. Spaghetti Carbonara, Schabowy z ziemniakami)",
+    "nazwa_dania": "String (np. Spaghetti Carbonara. WAŻNE: Jeśli jednak główny składnik jest ukryty/niepewny, NIE ZGADUJ go! Użyj nazwy ogólnej, np. 'Wrap z dodatkami' zamiast 'Wrap z kurczakiem')",
     "skladniki_pewne": [
       {
         "nazwa": "String (np. Ziemniaki)",
@@ -106,10 +125,10 @@ WYMAGANY FORMAT JSON:
     ],
     "skladniki_niejednoznaczne": [
       {
-        "przedmiot_wizualny": "String (np. Biały Sos, Szklanka coli)",
+        "przedmiot_wizualny": "String (np. Szklanka coli LUB Wsad wrapa)",
         "procent_talerza": Integer,
         "ilosc_sztuk": IntegerOrNull,
-        "typ_jednostki": "StringOrNull",
+        "typ_jednostki": "StringOrNull (porcja_wsad, porcja_ser, garsc, plaster - DLA WSADÓW)",
         "charakter_przestrzenny": "String (Z LISTY POWYŻEJ)",
         "gestosc_wizualna": "String (Z LISTY POWYŻEJ)",
         "warianty": [

@@ -1,108 +1,88 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Widoczny szeroki rant z czarno-białym wzorem geometrycznym (trójkąty).",
+        "visual_rim_check": "Gładki, biały talerz bez widocznego rantu dekoracyjnego lub wzorów.",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 255,
-        "calculated_diameter_mm": 255,
+        "raw_visual_width_mm": 240,
+        "calculated_diameter_mm": 240,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
-        "nazwa_dania": "Wrapy pszenne z mixem sałat i prażoną cebulką",
+        "nazwa_dania": "Kurczak w panierce z ryżem",
         "skladniki_pewne": [
             {
-                "nazwa": "Tortilla / Wrap",
-                "stan_wizualny": "Dwie zrolowane i opieczone tortille, prawdopodobnie pełnoziarniste",
-                "procent_talerza": 55,
-                "ilosc_sztuk": 2,
-                "typ_jednostki": "sztuka",
-                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 200
-            },
-            {
-                "nazwa": "Mix sałat",
-                "stan_wizualny": "Świeże liście rucoli, radicchio i sałaty lodowej",
-                "procent_talerza": 35,
+                "nazwa": "Ryż biały",
+                "stan_wizualny": "Gotowany na sypko",
+                "procent_talerza": 40,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "LUZNY_STOS",
-                "gestosc_wizualna": "NISKA",
-                "calculated_weight_g": 74
+                "charakter_przestrzenny": "KOPCZYK_SYPKI",
+                "gestosc_wizualna": "SREDNIA",
+                "calculated_weight_g": 247
             },
             {
-                "nazwa": "Cebulka prażona",
-                "stan_wizualny": "Chrupiąca posypka na wierzchu wrapów",
-                "procent_talerza": 5,
+                "nazwa": "Kawałki kurczaka w panierce",
+                "stan_wizualny": "Smażone na złocisto, chrupiąca panierka",
+                "procent_talerza": 45,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 19
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
+                "gestosc_wizualna": "WYSOKA",
+                "calculated_weight_g": 234
             }
         ],
         "skladniki_niejednoznaczne": [
             {
-                "przedmiot_wizualny": "Nadzienie wrapa",
+                "przedmiot_wizualny": "Mięso wewnątrz panierki",
+                "procent_talerza": 0,
+                "ilosc_sztuk": 1,
+                "typ_jednostki": "porcja_wsad",
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
+                "gestosc_wizualna": "WYSOKA",
+                "warianty": [
+                    {
+                        "nazwa": "Pierś z kurczaka",
+                        "typ": "Chude",
+                        "calculated_weight_g": 120
+                    },
+                    {
+                        "nazwa": "Mięso z udka kurczaka",
+                        "typ": "Tłustsze/Soczyste",
+                        "calculated_weight_g": 120
+                    }
+                ],
+                "visual_object_weight_g": 120
+            },
+            {
+                "przedmiot_wizualny": "Rodzaj panierki",
                 "procent_talerza": 0,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
-                "gestosc_wizualna": "SREDNIA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "gestosc_wizualna": "WYSOKA",
                 "warianty": [
                     {
-                        "nazwa": "Kurczak pieczony",
-                        "typ": "Białko",
+                        "nazwa": "Panierka klasyczna (bułka tarta)",
+                        "typ": "Standard",
                         "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Tofu / Falafel",
-                        "typ": "Wege",
-                        "calculated_weight_g": 0
-                    },
-                    {
-                        "nazwa": "Gyros wieprzowy",
-                        "typ": "Białko",
+                        "nazwa": "Panierka typu Panko/Płatki",
+                        "typ": "Chrupiąca",
                         "calculated_weight_g": 0
                     }
                 ],
                 "visual_object_weight_g": 0
-            },
-            {
-                "przedmiot_wizualny": "Biały sos",
-                "procent_talerza": 5,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "POWLOKA_SOS",
-                "gestosc_wizualna": "SREDNIA",
-                "warianty": [
-                    {
-                        "nazwa": "Sos czosnkowy na majonezie",
-                        "typ": "Tłusty",
-                        "calculated_weight_g": 2
-                    },
-                    {
-                        "nazwa": "Sos jogurtowy",
-                        "typ": "Lekki",
-                        "calculated_weight_g": 2
-                    },
-                    {
-                        "nazwa": "Sos tahini",
-                        "typ": "Roślinny",
-                        "calculated_weight_g": 2
-                    }
-                ],
-                "visual_object_weight_g": 2
             }
         ],
         "kontekst_talerza": {
-            "czy_widac_warzywa": true,
+            "czy_widac_warzywa": false,
             "szacowany_rozmiar": "L"
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 255
+        "final_diameter_mm": 240
     }
 }

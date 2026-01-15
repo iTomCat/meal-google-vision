@@ -37,13 +37,17 @@ STANDARD_WAGI = {
 
 # Mapa wysokości jedzenia
 HEIGHT_MAP = {
-    'PLASKI_WARSTWA': 0.8,
-    'NISKI_KOPCZYK': 2.0,
+    'PLASKI_WARSTWA': 0.4,  # Cienkie: Wędlina, Ser żółty, Naleśnik
+    # PLASKI_WARSTWA_GRUBA Średnie: Kotlet, Ryż płasko, Pizza, Omlet (ok. 1cm)
+    'PLASKI_WARSTWA_GRUBA': 1.0,
+    # Ziemniaki, Pulpety, Gulasz (Wysokie, strome ścianki)
+    'KOPCZYK_ZWARTY': 3.0,
+    'KOPCZYK_SYPKI': 2.4,        # Ryż, Kasza w górce (Stożek, schodzi do zera)
     'WYSOKI_KOPIEC': 4.5,
     'LUZNY_STOS': 4.5,
     'BRYLA_ZWARTA': 5.5,
     'ROLKA_NADZIEWANA': 3.5,  # Dla Tortilli/Wrapa
-    'POWLOKA_SOS': 0.1, #(1mm grubości dla sosu na makaronie)
+    'POWLOKA_SOS': 0.1,  # (1mm grubości dla sosu na makaronie)
     'CIECZ': 3.0,
     'SOS_W_MISECZCE': 2.5
 }
@@ -109,6 +113,10 @@ def _calculate_single_item_weight(diameter_mm, component_data):
         volume_modifier = 0.31
     elif spatial_type == 'ROLKA_NADZIEWANA':
         volume_modifier = 0.25
+    elif spatial_type == 'KOPCZYK_ZWARTY':  # Ziemniaki wypełniają przestrzeń szczelnie (prawie walec)
+        volume_modifier = 0.85
+    elif spatial_type == 'KOPCZYK_SYPKI':
+        volume_modifier = 0.60  # Ryż tworzy stożek -> ucinamy 40% objętości walca
 
     # Gęstość
     gestosc_raw = component_data.get('gestosc_wizualna')

@@ -1,65 +1,75 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Widoczny szeroki rant z czarno-białym wzorem geometrycznym (trójkąty).",
+        "visual_rim_check": "Gładki, biały rant bez wzorów, widoczna krawędź zewnętrzna.",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 255,
-        "calculated_diameter_mm": 255,
+        "raw_visual_width_mm": 260,
+        "calculated_diameter_mm": 260,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
-        "nazwa_dania": "Wrapy pszenne z mixem sałat i prażoną cebulką",
+        "nazwa_dania": "Grillowana pierś z kurczaka z pieczonymi ziemniakami i sałatką",
         "skladniki_pewne": [
             {
-                "nazwa": "Tortilla / Wrap",
-                "stan_wizualny": "Dwie zrolowane i opieczone tortille, prawdopodobnie pełnoziarniste",
-                "procent_talerza": 55,
-                "ilosc_sztuk": 2,
-                "typ_jednostki": "sztuka",
-                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 200
+                "nazwa": "Pierś z kurczaka grillowana",
+                "stan_wizualny": "Pokrojona w ukośne plastry, widoczne ślady grillowania i zioła",
+                "procent_talerza": 25,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "NISKI_KOPCZYK",
+                "gestosc_wizualna": "WYSOKA",
+                "calculated_weight_g": 305
             },
             {
-                "nazwa": "Mix sałat",
-                "stan_wizualny": "Świeże liście rucoli, radicchio i sałaty lodowej",
-                "procent_talerza": 35,
+                "nazwa": "Ziemniaki pieczone",
+                "stan_wizualny": "Małe ziemniaki typu baby, pieczone w całości z ziołami",
+                "procent_talerza": 20,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "NISKI_KOPCZYK",
+                "gestosc_wizualna": "SREDNIA",
+                "calculated_weight_g": 201
+            },
+            {
+                "nazwa": "Mix sałat z warzywami",
+                "stan_wizualny": "Świeża sałata, pomidorki koktajlowe, ogórek, czerwona cebula",
+                "procent_talerza": 45,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
                 "charakter_przestrzenny": "LUZNY_STOS",
                 "gestosc_wizualna": "NISKA",
-                "calculated_weight_g": 74
+                "calculated_weight_g": 99
             },
             {
-                "nazwa": "Cebulka prażona",
-                "stan_wizualny": "Chrupiąca posypka na wierzchu wrapów",
-                "procent_talerza": 5,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
+                "nazwa": "Chleb pszenny",
+                "stan_wizualny": "Dwie kromki pieczywa leżące obok talerza",
+                "procent_talerza": 0,
+                "ilosc_sztuk": 2,
+                "typ_jednostki": "kromka",
                 "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 19
+                "calculated_weight_g": 70
             },
             {
-                "nazwa": "Sos czosnkowy na majonezie",
-                "stan_wizualny": "Tłusty (Biały sos)",
-                "procent_talerza": 5,
-                "charakter_przestrzenny": "POWLOKA_SOS",
-                "gestosc_wizualna": "SREDNIA",
+                "nazwa": "Sos czosnkowy",
+                "stan_wizualny": "Kremowy (Sos w małej miseczce)",
+                "procent_talerza": 10,
+                "charakter_przestrzenny": "SOS_W_MISECZCE",
+                "gestosc_wizualna": "WYSOKA",
                 "stopien_przetworzenia": "Nieznany",
-                "calculated_weight_g": 2,
+                "calculated_weight_g": 53,
                 "is_user_selected": true
             },
             {
-                "nazwa": "Kurczak pieczony",
-                "stan_wizualny": "Białko (Nadzienie wrapa)",
+                "nazwa": "Ser kozi miękki",
+                "stan_wizualny": "Kremowy (Biały ser na sałatce)",
                 "procent_talerza": 0,
-                "charakter_przestrzenny": "ROLKA_NADZIEWANA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA",
                 "gestosc_wizualna": "SREDNIA",
                 "stopien_przetworzenia": "Nieznany",
-                "calculated_weight_g": 0,
+                "calculated_weight_g": 30,
                 "is_user_selected": true
             }
         ],
@@ -69,6 +79,6 @@
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 255
+        "final_diameter_mm": 260
     }
 }
