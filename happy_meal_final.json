@@ -1,23 +1,18 @@
 {
   "meta": {
-    "talerz_srednica_mm": 260,
-    "calkowita_waga_g": 571
+    "talerz_srednica_mm": 240,
+    "calkowita_waga_g": 481
   },
   "skladniki": [
     {
-      "nazwa": "Makaron spaghetti (Tradycyjna (Jajko i Ser))",
-      "waga_g": 527,
-      "stan": "Gotowany, wymieszany z sosem"
+      "nazwa": "Ryż biały",
+      "waga_g": 247,
+      "stan": "Gotowany na sypko, biały"
     },
     {
-      "nazwa": "Boczek / Guanciale (Boczek wędzony)",
-      "waga_g": 29,
-      "stan": "Smażone kawałki w sosie"
-    },
-    {
-      "nazwa": "Ser tarty (Parmezan/Pecorino)",
-      "waga_g": 15,
-      "stan": "Sypki, na wierzchu dania"
+      "nazwa": "Kurczak w panierce (Pierś z kurczaka) (Płatki kukurydziane / Panko) (Smażone na głębokim tłuszczu)",
+      "waga_g": 234,
+      "stan": "Smażone kawałki fileta w złocistej, chrupiącej panierce"
     }
   ]
 }

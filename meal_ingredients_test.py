@@ -86,9 +86,9 @@ def analyze_meal_interactive():
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(dane_json, f, ensure_ascii=False, indent=4)
 
-        print("\n" + "="*40)
+        print("\n" + "=" * 40)
         print(f"✅ GOTOWE! Otwórz plik: {filename}")
-        print("="*40)
+        print("=" * 40)
 
         # Szybki podgląd czy są opcje do wyboru
         ile_wyborow = len(dane_json.get("skladniki_do_wyboru", []))

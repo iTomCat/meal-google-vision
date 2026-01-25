@@ -1,90 +1,108 @@
 {
     "geometry_analysis": {
         "vessel_type": "PLATE",
-        "visual_rim_check": "Gładki, biały rant bez wzorów, wyraźnie płaski profil naczynia.",
+        "visual_rim_check": "Gładki, biały rant bez wzorów, widoczna krawędź zewnętrzna talerza obiadowego.",
         "reference_found": true,
         "detected_reference_type": "Widelec (192mm)",
         "measurement_method": "CASE_PLATE",
-        "raw_visual_width_mm": 260,
-        "calculated_diameter_mm": 260,
+        "raw_visual_width_mm": 240,
+        "calculated_diameter_mm": 240,
         "fallback_category_label": "PLATE_L"
     },
     "food_analysis": {
-        "nazwa_dania": "Spaghetti Carbonara",
+        "nazwa_dania": "Kurczak w panierce z ryżem",
         "skladniki_pewne": [
             {
-                "nazwa": "Makaron spaghetti",
-                "stan_wizualny": "Gotowany, wymieszany z sosem",
-                "procent_talerza": 75,
+                "nazwa": "Ryż biały",
+                "stan_wizualny": "Gotowany na sypko, biały",
+                "procent_talerza": 40,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "LUZNY_STOS",
+                "charakter_przestrzenny": "KOPCZYK_SYPKI",
                 "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 527
+                "calculated_weight_g": 247
             },
             {
-                "nazwa": "Boczek / Guanciale",
-                "stan_wizualny": "Smażone kawałki w sosie",
-                "procent_talerza": 12,
+                "nazwa": "Kurczak w panierce",
+                "stan_wizualny": "Smażone kawałki fileta w złocistej, chrupiącej panierce",
+                "procent_talerza": 45,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
                 "gestosc_wizualna": "WYSOKA",
-                "calculated_weight_g": 29
-            },
-            {
-                "nazwa": "Ser tarty (Parmezan/Pecorino)",
-                "stan_wizualny": "Sypki, na wierzchu dania",
-                "procent_talerza": 30,
-                "ilosc_sztuk": null,
-                "typ_jednostki": null,
-                "charakter_przestrzenny": "POWLOKA_SOS",
-                "gestosc_wizualna": "SREDNIA",
-                "calculated_weight_g": 15
+                "calculated_weight_g": 234
             }
         ],
         "skladniki_niejednoznaczne": [
             {
-                "przedmiot_wizualny": "Baza sosu",
-                "dotyczy_skladnika": "Makaron spaghetti",
+                "przedmiot_wizualny": "Rodzaj mięsa w panierce",
+                "dotyczy_skladnika": "Kurczak w panierce",
                 "czy_wsad_ukryty": false,
                 "procent_talerza": 0,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "POWLOKA_SOS",
-                "gestosc_wizualna": "SREDNIA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
+                "gestosc_wizualna": "WYSOKA",
                 "warianty": [
                     {
-                        "nazwa": "Tradycyjna (Jajko i Ser)",
-                        "typ": "Klasyczna",
+                        "nazwa": "Pierś z kurczaka",
+                        "typ": "Chude mięso",
                         "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Z dodatkiem śmietany",
-                        "typ": "Kremowa",
+                        "nazwa": "Udźciec z kurczaka",
+                        "typ": "Tłustsze mięso",
+                        "calculated_weight_g": 0
+                    },
+                    {
+                        "nazwa": "Indyk",
+                        "typ": "Chude mięso",
                         "calculated_weight_g": 0
                     }
                 ],
                 "visual_object_weight_g": 0
             },
             {
-                "przedmiot_wizualny": "Rodzaj mięsa",
-                "dotyczy_skladnika": "Boczek / Guanciale",
+                "przedmiot_wizualny": "Typ panierki",
+                "dotyczy_skladnika": "Kurczak w panierce",
                 "czy_wsad_ukryty": false,
                 "procent_talerza": 0,
                 "ilosc_sztuk": null,
                 "typ_jednostki": null,
-                "charakter_przestrzenny": "PLASKI_WARSTWA",
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
                 "gestosc_wizualna": "WYSOKA",
                 "warianty": [
                     {
-                        "nazwa": "Guanciale (Podgardle)",
-                        "typ": "Tłuste",
+                        "nazwa": "Klasyczna (bułka tarta)",
+                        "typ": "Standard",
                         "calculated_weight_g": 0
                     },
                     {
-                        "nazwa": "Boczek wędzony",
-                        "typ": "Standard",
+                        "nazwa": "Płatki kukurydziane / Panko",
+                        "typ": "Chrupiąca",
+                        "calculated_weight_g": 0
+                    }
+                ],
+                "visual_object_weight_g": 0
+            },
+            {
+                "przedmiot_wizualny": "Sposób przygotowania",
+                "dotyczy_skladnika": "Kurczak w panierce",
+                "czy_wsad_ukryty": false,
+                "procent_talerza": 0,
+                "ilosc_sztuk": null,
+                "typ_jednostki": null,
+                "charakter_przestrzenny": "PLASKI_WARSTWA_GRUBA",
+                "gestosc_wizualna": "WYSOKA",
+                "warianty": [
+                    {
+                        "nazwa": "Smażone na głębokim tłuszczu",
+                        "typ": "Wysoka kaloryczność",
+                        "calculated_weight_g": 0
+                    },
+                    {
+                        "nazwa": "Pieczone w piekarniku",
+                        "typ": "Niska kaloryczność",
                         "calculated_weight_g": 0
                     }
                 ],
@@ -92,11 +110,11 @@
             }
         ],
         "kontekst_talerza": {
-            "czy_widac_warzywa": true,
+            "czy_widac_warzywa": false,
             "szacowany_rozmiar": "L"
         }
     },
     "meta_calculation": {
-        "final_diameter_mm": 260
+        "final_diameter_mm": 240
     }
 }
